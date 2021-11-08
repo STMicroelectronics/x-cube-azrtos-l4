@@ -59,6 +59,10 @@ By using STM32L4 Series you inherit the “Distribution and Production Use” ri
 
 For more details about license information relative to each component in this package, please refer to [LICENSE](./LICENSE.md)
 
+## Release note
+
+Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/x-cube-azrtos-l4/blob/main/Release_Notes.html).
+
 
 ## Applications
 | Middleware   |  Applications                    |       Short Description      |
@@ -88,21 +92,6 @@ For more details about license information relative to each component in this pa
 |FileX   | Fx_IAP                       | It demonstrates how to implement an In-Application programming (IAP) using FileX's SD file access capabilities. The application is designed to erase and write to on-chip flash memory, it provides all required software code for handling SD card and flash memory I/O operations. This is a typical application on how to use the SD card peripheral for firmware upgrade application or IAP, allowing user to erase and write to on-chip flash memory. [readme](./Projects/STM32L4R9I-Discovery/Applications/FileX/FX_IAP/IAP_main/README.md) |
 |FileX   | Fx_SRAM_File_Edit_Standalone | It demonstrates how to create a Fat File system on the internal SRAM memory using FileX running in standalone mode without ThreadX. [readme](./Projects/NUCLEO-L4R5ZI/Applications/FileX/Fx_SRAM_File_Edit_Standalone/README.md) |
 
-## Main changes
-
-- First official release of Azure RTOS integration in the STM32Cube Ecosystem for STM32L4 MCU series
-
-## Known limitations
-
-- USBX composite device descriptors
-   - A maximum of 2 different class driver can be selected (restriction due to limited EP numbers)
-   - A list of USB device Applications supporting auto generation of USB Device framework descriptors provided  for these USB class drivers :MSC, HID mouse, CDC ACM, CDC ECM, DFU. For the other device class drivers, user needs first to 
-     disable the device framework builder (refer to : USBx wiki section 2.2 How to customize) and provide the full set of required device descriptors.
-   - User needs to point to the HAL Drivers under X-CUBE-AZRTOS-L4 install path instead of the default location when creating a USBX Host based project.
-   
-- ThreadX
-  - Tx_MPU application is not provided for MDK-ARM AC6
-  - The LowPower application may show instabilities with STM32CubeIDE
   
 ## Troubleshooting
 **Caution**  : The issues are  **strictly limited**  to submit problems or suggestions related to the software delivered in this repository.
