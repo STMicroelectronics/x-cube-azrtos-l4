@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    system_stm32l4xx.c
@@ -76,7 +75,6 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
 /** @addtogroup CMSIS
   * @{
@@ -207,25 +205,6 @@ void SystemInit(void)
 #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
   SCB->CPACR |= ((3UL << 20U)|(3UL << 22U));  /* set CP10 and CP11 Full Access */
 #endif
-
-  /* Reset the RCC clock configuration to the default reset state ------------*/
-  /* Set MSION bit */
-  RCC->CR |= RCC_CR_MSION;
-
-  /* Reset CFGR register */
-  RCC->CFGR = 0x00000000U;
-
-  /* Reset HSEON, CSSON , HSION, and PLLON bits */
-  RCC->CR &= 0xEAF6FFFFU;
-
-  /* Reset PLLCFGR register */
-  RCC->PLLCFGR = 0x00001000U;
-
-  /* Reset HSEBYP bit */
-  RCC->CR &= 0xFFFBFFFFU;
-
-  /* Disable all interrupts */
-  RCC->CIER = 0x00000000U;
 }
 
 /**

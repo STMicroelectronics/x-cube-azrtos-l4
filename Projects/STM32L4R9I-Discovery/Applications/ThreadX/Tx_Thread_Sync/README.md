@@ -33,8 +33,8 @@ the compile flags in the file "app_threadx.h".
   - 'LED_ORANGE' toggles every 500ms for 5 seconds
   - Messages on HyperTerminal :
      + "** ThreadXXX : waiting for SyncObject !! **" : When thread is waiting for the SyncObject.
-	 + "** ThreadXXX : waiting SyncObject released **" : When thread put the SyncObject.
-	 + "** ThreadXXX : waiting SyncObject acquired **" : When thread get the SyncObject.
+     + "** ThreadXXX : waiting SyncObject released **" : When thread put the SyncObject.
+     + "** ThreadXXX : waiting SyncObject acquired **" : When thread get the SyncObject.
 
 #### <b>Error behaviors</b>
 
@@ -46,14 +46,10 @@ None
 #### <b>Known limitations</b>
 None
 
-### <b>Notes</b>
-
- 1. Some code parts can be executed in the CCMRAM (64 KB) which decreases critical task execution time, compared to code execution from Flash memory. This feature can be activated using '#pragma location = ".CCMRAM"' to be placed above function declaration, or using the toolchain GUI (file options) to execute a whole source file in the CCMRAM.
-
 #### <b>ThreadX usage hints</b>
 
  - ThreadX uses the Systick as time base, thus it is mandatory that the HAL uses a separate time base through the TIM IPs.
- - ThreadX is configured with 100 ticks/sec by default, this should be taken into account when using delays or timeouts at application. It is always possible to reconfigure it in the "tx_user.h", the "TX_TIMER_TICKS_PER_SECOND" define,but this should be reflected in "tx_initialize_low_level.s" file too.
+ - ThreadX is configured with 100 ticks/sec by default, this should be taken into account when using delays or timeouts at application. It is always possible to reconfigure it in the "tx_user.h", the "TX_TIMER_TICKS_PER_SECOND" define,but this should be reflected in "tx_initialize_low_level.S" file too.
  - ThreadX is disabling all interrupts during kernel start-up to avoid any unexpected behavior, therefore all system related calls (HAL, BSP) should be done either at the beginning of the application or inside the thread entry functions.
  - ThreadX offers the "tx_application_define()" function, that is automatically called by the tx_kernel_enter() API.
    It is highly recommended to use it to create all applications ThreadX related resources (threads, semaphores, memory pools...)  but it should not in any way contain a system API call (HAL or BSP).
@@ -63,16 +59,16 @@ None
    This require changes in the linker files to expose this memory location.
     + For EWARM add the following section into the .icf file:
      ```
-	 place in RAM_region    { last section FREE_MEM };
-	 ```
+     place in RAM_region    { last section FREE_MEM };
+     ```
     + For MDK-ARM:
-	```
+    ```
     either define the RW_IRAM1 region in the ".sct" file
-    or modify the line below in "tx_low_level_initilize.s to match the memory region being used
+    or modify the line below in "tx_initialize_low_level.S to match the memory region being used
         LDR r1, =|Image$$RW_IRAM1$$ZI$$Limit|
-	```
+    ```
     + For STM32CubeIDE add the following section into the .ld file:
-	```
+    ```
     ._threadx_heap :
       {
          . = ALIGN(8);
@@ -80,7 +76,7 @@ None
          . = . + 64K;
          . = ALIGN(8);
        } >RAM_D1 AT> RAM_D1
-	```
+    ```
 
        The simplest way to provide memory for ThreadX is to define a new section, see ._threadx_heap above.
        In the example above the ThreadX heap size is set to 64KBytes.
@@ -88,26 +84,27 @@ None
        Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).
        Read more in STM32CubeIDE User Guide, chapter: "Linker script".
 
-    + The "tx_initialize_low_level.s" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
+    + The "tx_initialize_low_level.S" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
 
 
 ### <b>Keywords</b>
 
-RTOS, ThreadX, Thread, Semaphore, Mutex
+RTOS, ThreadX, Threading, Semaphore, Mutex
+
 
 ### <b>Hardware and Software environment</b>
 
-  - This application runs on STM32L4R9xx devices
-  - This application has been tested with STMicroelectronics STM32L4R9I-Disco boards Revision MB1311 C-02
-    and can be easily tailored to any other supported device and development board.
+  - This example runs on STM32L4R9xx devices
+  - This example has been tested with STMicroelectronics STM32L4R9I-Discovery boards Revision: MB1311 C-01.
 
+    and can be easily tailored to any other supported device and development board.
   - A virtual COM port appears in the HyperTerminal:
-    - Hyperterminal configuration:
-      - Data Length = 8 Bits
-      - One Stop Bit
-      - No parity
-      - BaudRate = 115200 baud
-      - Flow control: None
+      - Hyperterminal configuration:
+        + Data Length = 8 Bits
+        + One Stop Bit
+        + No parity
+        + BaudRate = 115200 baud
+        + Flow control: None
 
 ### <b>How to use it ?</b>
 

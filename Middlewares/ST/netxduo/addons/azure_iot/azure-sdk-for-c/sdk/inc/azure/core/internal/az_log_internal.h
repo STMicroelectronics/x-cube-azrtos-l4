@@ -1,6 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // SPDX-License-Identifier: MIT
 
+/**
+ * @file
+ *
+ * @brief Defines internals used by log.
+ *
+ * @note You MUST NOT use any symbols (macros, functions, structures, enums, etc.)
+ * prefixed with an underscore ('_') directly in your application code. These symbols
+ * are part of Azure SDK's internal implementation; we do not document these symbols
+ * and they are subject to change in future versions of the SDK which would break your code.
+ */
+
 #ifndef _az_LOG_INTERNAL_H
 #define _az_LOG_INTERNAL_H
 
@@ -10,39 +21,6 @@
 #include <stdbool.h>
 
 #include <azure/core/_az_cfg_prefix.h>
-
-// If the user hasn't registered any classifications, then we log everything.
-
-// Terminates the classification array passed to #_az_log_set_classifications().
-#define _az_LOG_END_OF_LIST -1
-
-/**
- * @brief Allows the application to specify which #az_log_classification types it is interested in
- * receiving.
- *
- * @param[in] classifications __[nullable]__ An array of #az_log_classification values, terminated
- * by #_az_LOG_END_OF_LIST.
- *
- * @details If no classifications are set (\p classifications is `NULL`), the application will
- * receive log messages for all #az_log_classification values.
- * @details If \p classifications is not `NULL`, it must point to an array of
- * #az_log_classification, terminated by #_az_LOG_END_OF_LIST.
- * @details In contrast to \p classifications being `NULL`, \p classifications pointing to an empty
- * array (which still should be terminated by #_az_LOG_END_OF_LIST), states that an application is
- * not interested in receiving any log messages.
- *
- * @warning Users must not change the \p classifications array elements, once it is passed to this
- * function. If \p classifications array is allocated on a stack, program behavior in multi-threaded
- * environment is undefined.
- */
-#ifndef AZ_NO_LOGGING
-void _az_log_set_classifications(az_log_classification const classifications[]);
-#else
-AZ_INLINE void _az_log_set_classifications(az_log_classification const classifications[])
-{
-  (void)classifications;
-}
-#endif // AZ_NO_LOGGING
 
 #ifndef AZ_NO_LOGGING
 

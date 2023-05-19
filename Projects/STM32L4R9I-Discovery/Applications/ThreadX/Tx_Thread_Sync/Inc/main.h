@@ -1,9 +1,10 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * @file    ThreadX/Tx_Thread_Sync/Inc/main.h
+  * @author  MCD Application Team
+  * @brief   This file contains all the functions prototypes for the main.c
+  *          file.
   ******************************************************************************
   * @attention
   *
@@ -51,12 +52,14 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

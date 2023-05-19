@@ -2,7 +2,6 @@
 /**
   ******************************************************************************
   * @file    stm32l4xx_it.h
-  * @author  MCD Application Team
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   * @attention
@@ -14,7 +13,7 @@
   * in the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
-  ******************************************************************************
+ ******************************************************************************
   */
 /* USER CODE END Header */
 

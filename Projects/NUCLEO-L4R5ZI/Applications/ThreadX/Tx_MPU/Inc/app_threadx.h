@@ -27,9 +27,10 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "main.h"
 #include "txm_module.h"
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -44,7 +45,18 @@
 
 /* USER CODE END EC */
 
+/* Private defines -----------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Main thread defines -------------------------------------------------------*/
+/* USER CODE BEGIN MTD */
+
+/* USER CODE END MTD */
+
 /* Exported macro ------------------------------------------------------------*/
+
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */

@@ -1,9 +1,10 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * @file    ThreadX/Tx_Thread_MsgQueue/Inc/main.h
+  * @author  MCD Application Team
+  * @brief   This file contains all the functions prototypes for the main.c
+  *          file.
   ******************************************************************************
   * @attention
   *
@@ -31,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -57,6 +58,11 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LED2_Pin GPIO_PIN_14
+#define LED2_GPIO_Port GPIOB
+#define LED1_Pin GPIO_PIN_7
+#define LED1_GPIO_Port GPIOC
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

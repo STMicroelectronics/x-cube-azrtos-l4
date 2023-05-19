@@ -167,9 +167,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/stm32l4xx_it.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/Core/tx_initialize_low_level.s</name>
+			<name>Application/User/Core/tx_initialize_low_level.S</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/tx_initialize_low_level.s</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/tx_initialize_low_level.S</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/Components/mfxstm32l152.c</name>
@@ -177,12 +177,12 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/BSP/Components/mfxstm32l152/mfxstm32l152.c</locationURI>
 		</link>
 		<link>
-			<name>Drivers/BSP/STM32L4R9I-DISCO/stm32l4r9i_discovery.c</name>
+			<name>Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery.c</locationURI>
 		</link>
 		<link>
-			<name>Drivers/BSP/STM32L4R9I-DISCO/stm32l4r9i_discovery_io.c</name>
+			<name>Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery_io.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery_io.c</locationURI>
 		</link>
@@ -1795,6 +1795,16 @@
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_control.S</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_control.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_disable.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_disable.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_restore.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_restore.S</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_preemption_change.c</name>

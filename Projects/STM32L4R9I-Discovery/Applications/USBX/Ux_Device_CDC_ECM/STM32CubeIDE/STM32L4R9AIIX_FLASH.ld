@@ -8,6 +8,8 @@
 ** @brief       : Linker script for STM32L4R9AIIx Device from STM32L4PLUS series
 **                      2048Kbytes FLASH
 **                      640Kbytes RAM
+**                      64Kbytes RAM2
+**                      384Kbytes RAM3
 **
 **                Set heap size, stack size and stack location according
 **                to application requirements.
@@ -22,13 +24,12 @@
 ******************************************************************************
 ** @attention
 **
-** <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-** All rights reserved.</center></h2>
+** Copyright (c) 2021 STMicroelectronics.
+** All rights reserved.
 **
-** This software component is licensed by ST under BSD 3-Clause license,
-** the "License"; You may not use this file except in compliance with the
-** License. You may obtain a copy of the License at:
-**                        opensource.org/licenses/BSD-3-Clause
+** This software is licensed under terms that can be found in the LICENSE file
+** in the root directory of this software component.
+** If no LICENSE file comes with this software, it is provided AS-IS.
 **
 ******************************************************************************
 */
@@ -46,6 +47,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 640K
+  RAM2    (xrw)    : ORIGIN = 0x10000000,   LENGTH = 64K
+  RAM3    (xrw)    : ORIGIN = 0x20040000,   LENGTH = 384K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 2048K
 }
 

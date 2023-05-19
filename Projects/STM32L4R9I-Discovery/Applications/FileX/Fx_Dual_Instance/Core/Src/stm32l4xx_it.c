@@ -55,6 +55,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_octospi1;
+extern OSPI_HandleTypeDef hospi1;
 extern SD_HandleTypeDef hsd1;
 extern TIM_HandleTypeDef htim6;
 
@@ -161,6 +163,34 @@ void DebugMon_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles DMA1 channel1 global interrupt.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_octospi1);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[9:5] interrupts.
+  */
+void EXTI9_5_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
+
+  /* USER CODE END EXTI9_5_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(SD_DETECT_Pin);
+  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+
+  /* USER CODE END EXTI9_5_IRQn 1 */
+}
+
+/**
   * @brief This function handles SDMMC1 global interrupt.
   */
 void SDMMC1_IRQHandler(void)
@@ -186,6 +216,20 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 
   /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles OCTOSPI1 global interrupt.
+  */
+void OCTOSPI1_IRQHandler(void)
+{
+  /* USER CODE BEGIN OCTOSPI1_IRQn 0 */
+
+  /* USER CODE END OCTOSPI1_IRQn 0 */
+  HAL_OSPI_IRQHandler(&hospi1);
+  /* USER CODE BEGIN OCTOSPI1_IRQn 1 */
+
+  /* USER CODE END OCTOSPI1_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

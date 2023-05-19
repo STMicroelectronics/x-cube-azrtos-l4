@@ -366,7 +366,6 @@
           <state>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/inc/</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/inc/</state>
           <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32L4R9I-Discovery</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/Components/mfxstm32l152</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1074,7 +1073,7 @@
           <name>$PROJ_DIR$/../Core/Src/main.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$/../Core/Src/tx_initialize_low_level.s</name>
+          <name>$PROJ_DIR$/../Core/Src/tx_initialize_low_level.S</name>
         </file>
         <file>
           <name>$PROJ_DIR$/../Core/Src/app_threadx.c</name>
@@ -1126,7 +1125,7 @@
     <group>
       <name>BSP</name>
       <group>
-        <name>STM32L4R9I-Disco</name>
+        <name>STM32L4R9I-Discovery</name>
         <file>
           <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery.c</name>
         </file>
@@ -1144,16 +1143,13 @@
     <group>
       <name>STM32L4xx_HAL_Driver</name>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c</name>
@@ -1190,6 +1186,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_sdmmc.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sd.c</name>
@@ -1965,9 +1964,6 @@
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/tx_initialize_kernel_setup.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/src/tx_iar.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/tx_block_allocate.c</name>
         </file>
         <file>
@@ -2425,6 +2421,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/txe_timer_info_get.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/src/tx_iar.c</name>
         </file>
       </group>
     </group>

@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
+extern DMA_HandleTypeDef hdma_octospi1;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
@@ -91,6 +92,7 @@ void HAL_OSPI_MspInit(OSPI_HandleTypeDef* hospi)
   /* USER CODE BEGIN OCTOSPI1_MspInit 0 */
 
   /* USER CODE END OCTOSPI1_MspInit 0 */
+
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_OSPI;
@@ -149,6 +151,27 @@ void HAL_OSPI_MspInit(OSPI_HandleTypeDef* hospi)
     GPIO_InitStruct.Alternate = GPIO_AF5_OCTOSPIM_P2;
     HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
+    /* OCTOSPI1 DMA Init */
+    /* OCTOSPI1 Init */
+    hdma_octospi1.Instance = DMA1_Channel1;
+    hdma_octospi1.Init.Request = DMA_REQUEST_OCTOSPI1;
+    hdma_octospi1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_octospi1.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_octospi1.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_octospi1.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_octospi1.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_octospi1.Init.Mode = DMA_NORMAL;
+    hdma_octospi1.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_octospi1) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(hospi,hdma,hdma_octospi1);
+
+    /* OCTOSPI1 interrupt Init */
+    HAL_NVIC_SetPriority(OCTOSPI1_IRQn, 8, 0);
+    HAL_NVIC_EnableIRQ(OCTOSPI1_IRQn);
   /* USER CODE BEGIN OCTOSPI1_MspInit 1 */
 
   /* USER CODE END OCTOSPI1_MspInit 1 */
@@ -192,6 +215,11 @@ void HAL_OSPI_MspDeInit(OSPI_HandleTypeDef* hospi)
 
     HAL_GPIO_DeInit(GPIOH, GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_8);
 
+    /* OCTOSPI1 DMA DeInit */
+    HAL_DMA_DeInit(hospi->hdma);
+
+    /* OCTOSPI1 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(OCTOSPI1_IRQn);
   /* USER CODE BEGIN OCTOSPI1_MspDeInit 1 */
 
   /* USER CODE END OCTOSPI1_MspDeInit 1 */
@@ -214,6 +242,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
   /* USER CODE BEGIN USART2_MspInit 0 */
 
   /* USER CODE END USART2_MspInit 0 */
+
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;

@@ -198,6 +198,7 @@ VOID module_manager_entry(ULONG thread_input)
     Error_Handler();
   }
 
+
   /* Get module properties. */
   status = txm_module_manager_properties_get(&my_module, &module_properties);
 
@@ -264,7 +265,7 @@ VOID module_manager_entry(ULONG thread_input)
   /* Toggle green LED to indicated success of operations */
   while(1) {
 	/* Toggle GREEN LED*/
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
     tx_thread_sleep(TX_TIMER_TICKS_PER_SECOND / 2);
   }
 }

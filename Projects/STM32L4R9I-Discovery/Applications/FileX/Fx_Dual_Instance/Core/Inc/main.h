@@ -53,17 +53,18 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-void   MX_OCTOSPI1_Init(void);
-void   MX_SDMMC1_SD_Init(void);
-/* USER CODE BEGIN Private defines */
+#define SD_DETECT_Pin GPIO_PIN_5
+#define SD_DETECT_GPIO_Port GPIOF
+#define SD_DETECT_EXTI_IRQn EXTI9_5_IRQn
 
-#define SD_IS_DETECT                     (BSP_IO_ReadPin(SD_DETECT_PIN) == IO_PIN_RESET)
+/* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 

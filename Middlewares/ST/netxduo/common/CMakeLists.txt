@@ -25,6 +25,7 @@ target_sources(${PROJECT_NAME}
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_arp_static_entry_create.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_arp_static_entry_delete.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_arp_static_entry_delete_internal.c
+	${CMAKE_CURRENT_LIST_DIR}/src/nx_http_proxy_client.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_icmp_cleanup.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_icmp_enable.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_icmp_info_get.c
@@ -226,6 +227,7 @@ target_sources(${PROJECT_NAME}
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_receive_cleanup.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_accept.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_listen.c
+	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_driver_listen.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_relisten.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_unaccept.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_server_socket_unlisten.c
@@ -236,6 +238,8 @@ target_sources(${PROJECT_NAME}
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_delete.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_disconnect.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_disconnect_complete_notify.c
+	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_driver_establish.c
+	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_driver_packet_receive.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_establish_notify.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_info_get.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_tcp_socket_mss_get.c
@@ -287,6 +291,7 @@ target_sources(${PROJECT_NAME}
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_checksum_enable.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_create.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_delete.c
+	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_driver_packet_receive.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_info_get.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_port_get.c
 	${CMAKE_CURRENT_LIST_DIR}/src/nx_udp_socket_receive.c

@@ -12,6 +12,11 @@ option(UNIT_TESTING_MOCKS "wrap PAL functions with mock implementation for tests
 option(TRANSPORT_PAHO "Build IoT Samples with Paho MQTT support" OFF)
 option(PRECONDITIONS "Build SDK with preconditions enabled" ON)
 option(LOGGING "Build SDK with logging support" ON)
+option(ADDRESS_SANITIZER "Build with address sanitizer" OFF)
+
+# vcpkg integration
+include(AzureVcpkg)
+az_vcpkg_integrate()
 
 # disable preconditions when it's set to OFF
 if (NOT PRECONDITIONS)
@@ -32,22 +37,10 @@ if(TRANSPORT_CURL)
   add_compile_definitions(TRANSPORT_CURL)
 endif()
 
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-elseif(DEFINED ENV{VCPKG_INSTALLATION_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
-
-if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
-  set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
-endif()
-
 project(az LANGUAGES C)
 enable_testing ()
 
-include(eng/cmake/global_compile_options.txt)
+include(eng/cmake/global_compile_options.cmake)
 include(create_map_file)
 
 # Include function for creating code coverage targets
@@ -61,11 +54,14 @@ file(WRITE ${CMAKE_BINARY_DIR}/coverage_targets.txt "")
 
 # Determine platform to build
 if(AZ_PLATFORM_IMPL STREQUAL "WIN32")
-  # build windows platform
   set(PAL az_win32)
 elseif(AZ_PLATFORM_IMPL STREQUAL "POSIX")
-  # build linux platform
   set(PAL az_posix)
+elseif(AZ_PLATFORM_IMPL STREQUAL "CUSTOM")
+  if(NOT DEFINED AZ_CUSTOM_PLATFORM_IMPL_NAME)
+    message(FATAL_ERROR "When using AZ_PLATFORM_IMPL=CUSTOM, AZ_CUSTOM_PLATFORM_IMPL_NAME must be defined as well. See Readme.")
+  endif()
+  set(PAL ${AZ_CUSTOM_PLATFORM_IMPL_NAME})
 else()
   #noplatform
   set(PAL az_noplatform)
@@ -89,10 +85,27 @@ endif()
 # default for Unit testing with cmocka is OFF, however, this will be ON on CI and tests must
 # pass before committing changes
 if (UNIT_TESTING)
+  # make generate step fail if cmocka dependency is not found
+  find_package(cmocka CONFIG REQUIRED)
+
+  # Old versions of cmocka (including the latest stable) don't define an imported target
+  if(NOT TARGET cmocka::cmocka)
+    set(CMOCKA_LIB ${CMOCKA_LIBRARIES})
+  else()
+    set(CMOCKA_LIB cmocka::cmocka)
+  endif()
+
+  # for gcc, we need to add no-clobbered compile opt to avoid warning about set-jump function
+  set(NO_CLOBBERED_WARNING "")
+  if (CMAKE_C_COMPILER_ID MATCHES "GNU")
+    set(NO_CLOBBERED_WARNING "-Wno-clobbered")
+  endif()
+
   # Core
   add_subdirectory(sdk/tests/core)
 
   # IoT
+  add_subdirectory(sdk/tests/iot/adu)
   add_subdirectory(sdk/tests/iot/common)
   add_subdirectory(sdk/tests/iot/hub)
   add_subdirectory(sdk/tests/iot/provisioning)

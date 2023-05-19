@@ -53,7 +53,7 @@ add_library (az::nohttp ALIAS az_nohttp)
 # Curl Platform
 if (TRANSPORT_CURL)
   set(CURL_MIN_REQUIRED_VERSION 7.1) #Min curl version to support CURLOPT_HTTPHEADER option
-  find_package(CURL ${CURL_MIN_REQUIRED_VERSION} CONFIG) 
+  find_package(CURL ${CURL_MIN_REQUIRED_VERSION} CONFIG)
   if(NOT CURL_FOUND)
     find_package(CURL ${CURL_MIN_REQUIRED_VERSION} REQUIRED)
   endif()
@@ -69,6 +69,7 @@ if (TRANSPORT_CURL)
   # make sure that users can consume the project as a library.
   add_library (az::curl ALIAS az_curl)
 
-  target_link_libraries(az_curl PRIVATE CURL::libcurl)
+  target_link_libraries(az_curl PUBLIC CURL::libcurl)
+  target_include_directories(az_curl INTERFACE ${CURL_INCLUDE_DIR})
 
 endif()

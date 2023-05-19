@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.50.6.28611</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -488,7 +488,7 @@
             <name>AARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>10</version>
+                <version>11</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -643,6 +643,10 @@
                 <option>
                     <name>AsmNoLiteralPool</name>
                     <state>0</state>
+                </option>
+                <option>
+                    <name>PreInclude</name>
+                    <state></state>
                 </option>
             </data>
         </settings>
@@ -1095,7 +1099,7 @@
                     <name>$PROJ_DIR$\..\Src\stm32l4xx_it.c</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\..\Src\tx_initialize_low_level.s</name>
+                    <name>$PROJ_DIR$\..\Src\tx_initialize_low_level.S</name>
                 </file>
             </group>
         </group>
@@ -1111,7 +1115,7 @@
         <group>
             <name>CMSIS</name>
             <file>
-                <name>$PROJ_DIR$\..\Common\Src\system_stm32l4xx.c</name>
+                <name>$PROJ_DIR$\..\Src\system_stm32l4xx.c</name>
             </file>
         </group>
         <group>

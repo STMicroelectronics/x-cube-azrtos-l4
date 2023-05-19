@@ -44,7 +44,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state />
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\ST\STM32L4R5ZI.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -88,7 +88,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>8.50.4.26131</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state />
+                    <state>$TOOLKIT_DIR$\config\flashloader\ST\FlashSTM32L4SxxI.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -1114,7 +1114,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkDebugAccessPortRadio</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCSTLinkUseServerSelect</name>
@@ -1123,7 +1123,7 @@
                 <option>
                     <name>CCSTLinkProbeList</name>
                     <version>1</version>
-                    <state>0</state>
+                    <state>2</state>
                 </option>
             </data>
         </settings>
@@ -1454,7 +1454,7 @@
             </plugin>
             <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\ThreadX\ThreadXArmPlugin.ENU.ewplugin</file>
-                <loadFlag>0</loadFlag>
+                <loadFlag>1</loadFlag>
             </plugin>
             <plugin>
                 <file>$TOOLKIT_DIR$\plugins\rtos\TI-RTOS\tirtosplugin.ewplugin</file>

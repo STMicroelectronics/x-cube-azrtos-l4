@@ -1,21 +1,21 @@
 
 ## <b>IAP_main application description</b>
 
-This application provides an example of Azure RTOS FileX stack usage on STM32L4R9I-Disco board, it implements an In-Application programming (IAP) demonstrating FileX's SD file access capabilities. 
+This application provides an example of Azure RTOS FileX stack usage on STM32L4R9I-Discovery board, it implements an In-Application programming (IAP) demonstrating FileX's SD file access capabilities.
 The application is designed to erase and write to on-chip flash memory, it provides all required software code for handling SD card and flash memory I/O operations.
 
-This is a typical application on how to use the STM32L4R9 SD card peripheral for firmware upgrade application or IAP, allowing user to erase and write to on-chip flash memory.
+This is a typical application on how to use the STM32L4R9xx SD card peripheral for firmware upgrade application or IAP, allowing user to erase and write to on-chip flash memory.
 
 The application starts by checking the state of the user button (JOYSTICK), and depending on its state the application will enter one of the two startup sequences:
 
 
 #### <b>Programming new software sequence</b>
 
-If the user button (JOYSTICK) is pressed at application start-up, the program try to flash a new software, loaded from the SD card, to the flash memory using **fx_thread** (Priority : 10; Preemption Priority : 10) as below:
+If the user button is pressed at application start-up, the program try to flash a new software, loaded from the SD card, to the flash memory using **fx_app_thread** (Priority : 10; Preemption Priority : 10) as below:
 
   - initialize the SD card driver
-  - open the SD card media and look for the executable to be loaded which should be named as defined by **FW_NAME_STRING** located in "FileX/FX_IAP/IAP_main/FileX/App/app_filex.h" 
-  - go over the file and program it into flash, 8 bytes a time
+  - open the SD card media and look for the executable to be loaded which should be named as defined by **FW_NAME_STRING** located in "FileX/FX_IAP/IAP_main/Core/Inc/main.h"
+  - go over the file and program it into flash, 32 bytes a time
   - upon completion, the Application will enter an infinite loop toggling the green LED, marking the success of the flashing operation.
 
 <b> Notes:</b>
@@ -26,7 +26,7 @@ If the user button (JOYSTICK) is pressed at application start-up, the program tr
 
 #### <b>Loading the new software sequence</b>
 
-If the user button is found to be not pressed at application start-up, the program will try to load the previously programmed application from the address defined by **APP_ADDRESS**.
+If the user button is not pressed at application start-up, the program will try to load the previously programmed application from the address defined by **APP_ADDRESS**.
 
 For that the steps below will be followed:
 
@@ -53,7 +53,7 @@ In the loading new software sequence, the loaded application should start and ru
 
 ### <b>Error behaviors</b>
 
-On failure, the orange LED starts toggeling while the green LED is switched OFF.
+On failure, the orange LED starts toggling while the green LED is switched OFF.
 
 
 ### <b>Assumptions if any</b>
@@ -62,22 +62,25 @@ The SD card is expected to be inserted before application start (only in program
 The loaded application must be placed in the root directory of the SD card as a raw binary.
 
 
+### <b>Known limitations</b>
+
+None
+
 #### <b>Loaded-App requirements</b>
 
 The loaded-App should be configured to start from an offset into the flash that does not overlap with the IAP application memory sections.
 Particularly, linker options should be changed to set the **Vector Table** and the **ROM START** both pointing to **APP_ADDRESS**.
 
-Upon startup, the loaded-App will set the VTOR register with its Interrupt Vector Table starting address, so offset should be taken into account. 
-This can be achieved by setting the offset to the defined name **VECT_TABLE_OFFSET** located in file **system_stm32h7xx.c**.
+Upon startup, the loaded-App will set the VTOR register with its Interrupt Vector Table starting address, so offset should be taken into account.
+This can be achieved by setting the offset to the defined name **VECT_TABLE_OFFSET** located in file **system_stm32l4xx.c**.
 
 The Loaded-App must be generated as raw binary, this can be achieved by setting the output format of the IDE to **Raw binary**.
-The name for the binary should also be specified there as defined by **FW_NAME_STRING** located in "FileX/FX_IAP/IAP_main/FileX/App/app_filex.h".
+The name for the binary should also be specified there as defined by **FW_NAME_STRING** located in "FileX/FX_IAP/IAP_main/Core/Inc/main.h".
 
-  
 #### <b>ThreadX usage hints</b>
 
  - ThreadX uses the Systick as time base, thus it is mandatory that the HAL uses a separate time base through the TIM IPs.
- - ThreadX is configured with 100 ticks/sec by default, this should be taken into account when using delays or timeouts at application. It is always possible to reconfigure it in the "tx_user.h", the "TX_TIMER_TICKS_PER_SECOND" define,but this should be reflected in "tx_initialize_low_level.s" file too.
+ - ThreadX is configured with 100 ticks/sec by default, this should be taken into account when using delays or timeouts at application. It is always possible to reconfigure it in the "tx_user.h", the "TX_TIMER_TICKS_PER_SECOND" define,but this should be reflected in "tx_initialize_low_level.S" file too.
  - ThreadX is disabling all interrupts during kernel start-up to avoid any unexpected behavior, therefore all system related calls (HAL, BSP) should be done either at the beginning of the application or inside the thread entry functions.
  - ThreadX offers the "tx_application_define()" function, that is automatically called by the tx_kernel_enter() API.
    It is highly recommended to use it to create all applications ThreadX related resources (threads, semaphores, memory pools...)  but it should not in any way contain a system API call (HAL or BSP).
@@ -87,16 +90,16 @@ The name for the binary should also be specified there as defined by **FW_NAME_S
    This require changes in the linker files to expose this memory location.
     + For EWARM add the following section into the .icf file:
      ```
-	 place in RAM_region    { last section FREE_MEM };
-	 ```
+     place in RAM_region    { last section FREE_MEM };
+     ```
     + For MDK-ARM:
-	```
+    ```
     either define the RW_IRAM1 region in the ".sct" file
-    or modify the line below in "tx_low_level_initilize.s to match the memory region being used
+    or modify the line below in "tx_initialize_low_level.S to match the memory region being used
         LDR r1, =|Image$$RW_IRAM1$$ZI$$Limit|
-	```
+    ```
     + For STM32CubeIDE add the following section into the .ld file:
-	``` 
+    ```
     ._threadx_heap :
       {
          . = ALIGN(8);
@@ -104,21 +107,19 @@ The name for the binary should also be specified there as defined by **FW_NAME_S
          . = . + 64K;
          . = ALIGN(8);
        } >RAM_D1 AT> RAM_D1
-	``` 
-	
+    ```
+
        The simplest way to provide memory for ThreadX is to define a new section, see ._threadx_heap above.
        In the example above the ThreadX heap size is set to 64KBytes.
-       The ._threadx_heap must be located between the .bss and the ._user_heap_stack sections in the linker script.	 
-       Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).	 
+       The ._threadx_heap must be located between the .bss and the ._user_heap_stack sections in the linker script.
+       Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).
        Read more in STM32CubeIDE User Guide, chapter: "Linker script".
-	  
-    + The "tx_initialize_low_level.s" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
-               
-               
+
+    + The "tx_initialize_low_level.S" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
+
 #### <b>FileX/LevelX usage hints</b>
 
-- FileX is using data buffers, passed as arguments to fx_media_open(), fx_media_read() and fx_media_write() API it is recommended that these buffers are multiple of sector size and "4 bytes" aligned to avoid unalgined access issues.
-
+- When calling the fx_media_format() API, it is highly recommended to understand all the parameters used by the API to correctly generate a valid filesystem.
 #### <b>Debugging</b>
 
 While in loading new software sequence, the loaded-App can be debugged using IAR by going into **Project** menu and click **Attach to Running Target**.
@@ -127,11 +128,10 @@ While in loading new software sequence, the loaded-App can be debugged using IAR
 
 RTOS, ThreadX, FileX, File system, SDMMC, SDIO, FAT32
 
-
 ### <b>Hardware and Software environment</b>
 
   - This example runs on STM32L4R9xx devices.
-  - This example has been tested with STMicroelectronics STM32L4R9I-Disco boards Revision: MB1189 B-03, and can be easily tailored to any other supported device and development board.
+  - This example has been tested with STMicroelectronics STM32L4R9I-Discovery boards Revision: MB1311 C-01 and can be easily tailored to any other supported device and development board
   - This application uses USART2 to display logs, the hyperterminal configuration is as follows:
       - BaudRate = 115200 baud
       - Word Length = 8 Bits

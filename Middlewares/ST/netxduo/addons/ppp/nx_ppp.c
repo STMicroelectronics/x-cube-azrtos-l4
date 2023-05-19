@@ -24,13 +24,16 @@
 
 
 /* Force error checking to be disabled in this module */
+#include "tx_port.h"
 
 #ifndef NX_DISABLE_ERROR_CHECKING
 #define NX_DISABLE_ERROR_CHECKING
 #endif
 
+#ifndef TX_SAFETY_CRITICAL
 #ifndef TX_DISABLE_ERROR_CHECKING
 #define TX_DISABLE_ERROR_CHECKING
+#endif
 #endif
 
 
@@ -2210,7 +2213,7 @@ NX_PACKET       *packet_ptr;
 /*  FUNCTION                                               RELEASE        */ 
 /*                                                                        */ 
 /*    _nx_ppp_lcp_state_machine_update                    PORTABLE C      */ 
-/*                                                           6.1.2        */
+/*                                                           6.1.8        */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Yuxin Zhou, Microsoft Corporation                                   */
@@ -2257,6 +2260,9 @@ NX_PACKET       *packet_ptr;
 /*                                            improved packet length      */
 /*                                            verification,               */
 /*                                            resulting in version 6.1.2  */
+/*  08-02-2021     Yuxin Zhou               Modified comment(s), fixed    */
+/*                                            the logic of retransmission,*/
+/*                                            resulting in version 6.1.8  */
 /*                                                                        */
 /**************************************************************************/
 void  _nx_ppp_lcp_state_machine_update(NX_PPP *ppp_ptr, NX_PACKET *packet_ptr)
@@ -2801,9 +2807,6 @@ UINT    status;
                         /* Yes, the peer can accept larger messages than the default.  */
                         (ppp_ptr -> nx_ppp_interface_ptr) -> nx_interface_ip_mtu_size =  ppp_ptr -> nx_ppp_mru;
                     }
-                    
-                    /* Disable the LCP timeout.  */
-                    ppp_ptr -> nx_ppp_timeout =  0;
                 }
 
                 /* Send configuration reply.  */

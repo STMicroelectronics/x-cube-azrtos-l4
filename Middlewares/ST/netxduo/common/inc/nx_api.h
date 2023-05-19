@@ -26,7 +26,7 @@
 /*  APPLICATION INTERFACE DEFINITION                       RELEASE        */
 /*                                                                        */
 /*    nx_api.h                                            PORTABLE C      */
-/*                                                           6.1.7        */
+/*                                                           6.2.0        */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Yuxin Zhou, Microsoft Corporation                                   */
@@ -70,6 +70,33 @@
 /*  06-02-2021     Yuxin Zhou               Modified comment(s), and      */
 /*                                            updated product constants,  */
 /*                                            resulting in version 6.1.7  */
+/*  08-02-2021     Yuxin Zhou               Modified comment(s), and      */
+/*                                            supported TCP/IP offload,   */
+/*                                            added new ip filter,        */
+/*                                            added function to convert   */
+/*                                            unsigned integer to string, */
+/*                                            resulting in version 6.1.8  */
+/*  10-15-2021     Yuxin Zhou               Modified comment(s), and      */
+/*                                            added support for getting   */
+/*                                            interface type,             */
+/*                                            resulting in version 6.1.9  */
+/*  01-31-2022     Yuxin Zhou               Modified comment(s), and      */
+/*                                            updated product constants,  */
+/*                                            resulting in version 6.1.10 */
+/*  04-25-2022     Yuxin Zhou               Modified comment(s), and      */
+/*                                            updated product constants,  */
+/*                                            added internal ip address   */
+/*                                            change notification,        */
+/*                                            resulting in version 6.1.11 */
+/*  07-29-2022     Yuxin Zhou               Modified comment(s), and      */
+/*                                            updated product constants,  */
+/*                                            fixed compiler errors when  */
+/*                                            TX_SAFETY_CRITICAL is       */
+/*                                            enabled,                    */
+/*                                            resulting in version 6.1.12 */
+/*  10-31-2022     Wenhui Xie               Modified comment(s), and      */
+/*                                            supported HTTP Proxy,       */
+/*                                            resulting in version 6.2.0  */
 /*                                                                        */
 /**************************************************************************/
 
@@ -94,10 +121,13 @@ extern   "C" {
 
 
 /* Bypass ThreadX API error checking for internal NetX calls.  */
+#include "tx_port.h"
 
 #ifdef NX_SOURCE_CODE
+#ifndef TX_SAFETY_CRITICAL
 #ifndef TX_DISABLE_ERROR_CHECKING
 #define TX_DISABLE_ERROR_CHECKING
+#endif
 #endif
 #endif
 
@@ -114,6 +144,12 @@ extern   "C" {
 /* Include the ThreadX trace information.  */
 
 #include "tx_trace.h"
+
+#ifdef NX_ENABLE_TCPIP_OFFLOAD
+#ifndef NX_ENABLE_INTERFACE_CAPABILITY
+#error "NX_ENABLE_INTERFACE_CAPABILITY must be defined to enable TCP/IP offload"
+#endif /* NX_ENABLE_INTERFACE_CAPABILITY */
+#endif /* NX_ENABLE_TCPIP_OFFLOAD */
 
 /* Define symbols for compatibility before and after ThreadX 5.8. */
 #if (((THREADX_MAJOR_VERSION << 8) | THREADX_MINOR_VERSION) >= 0x0508)
@@ -476,8 +512,8 @@ VOID _nx_trace_event_update(TX_TRACE_BUFFER_ENTRY *event, ULONG timestamp, ULONG
 /* Define basic constants for the NetX TCP/IP Stack.  */
 #define AZURE_RTOS_NETXDUO
 #define NETXDUO_MAJOR_VERSION                    6
-#define NETXDUO_MINOR_VERSION                    1
-#define NETXDUO_PATCH_VERSION                    7
+#define NETXDUO_MINOR_VERSION                    2
+#define NETXDUO_PATCH_VERSION                    0
 
 /* Define the following symbols for backward compatibility */
 #define EL_PRODUCT_NETXDUO
@@ -1177,6 +1213,22 @@ typedef struct NX_IPV6_DEFAULT_ROUTER_ENTRY_STRUCT
 #define NX_MAX_LISTEN_REQUESTS                     10
 #endif
 
+/* Define the max length of username and password for HTTP Proxy authentication.  */
+
+/* Define the max length of username.  */
+#ifndef NX_HTTP_PROXY_MAX_USERNAME
+#define NX_HTTP_PROXY_MAX_USERNAME                 20
+#endif
+
+/* Define the max length of password.  */
+#ifndef NX_HTTP_PROXY_MAX_PASSWORD
+#define NX_HTTP_PROXY_MAX_PASSWORD                 20
+#endif
+
+/* NX_HTTP_PROXY_MAX_AUTHENTICATION is the max length of base64 of "name:password", 
+   1 bytes for an extra conversion if needed, 2 bytes for pad if needed, 1 byte for null terminator and four byte alignment. */
+#define NX_HTTP_PROXY_MAX_AUTHENTICATION           (((((NX_HTTP_PROXY_MAX_USERNAME + NX_HTTP_PROXY_MAX_PASSWORD  + 1 ) * 4 / 3) + 1 + 2 + 1) / 4 + 1) * 4)
+
 
 /* Define the IP status checking/return bits.  */
 
@@ -1271,6 +1323,7 @@ typedef struct NX_IPV6_DEFAULT_ROUTER_ENTRY_STRUCT
 #define NX_PACKET_OFFSET_ERROR                     0x53
 #define NX_OPTION_HEADER_ERROR                     0x54
 #define NX_CONTINUE                                0x55
+#define NX_TCPIP_OFFLOAD_ERROR                     0x56
 
 /* Define Link Driver constants.  */
 
@@ -1302,8 +1355,22 @@ typedef struct NX_IPV6_DEFAULT_ROUTER_ENTRY_STRUCT
 #define NX_LINK_RX_ENABLE                          25
 #define NX_LINK_RX_DISABLE                         26
 #define NX_LINK_6LOWPAN_COMMAND                    27 /* 6LowPAN driver command, the sub command see nx_6lowpan.h.  */
+#define NX_LINK_GET_INTERFACE_TYPE                 28
 
 #define NX_LINK_USER_COMMAND                       50 /* Values after this value are reserved for application.  */
+
+
+/* Define operations for TCP/IP offload callback functions.  */
+#define NX_TCPIP_OFFLOAD_TCP_CLIENT_SOCKET_CONNECT  0
+#define NX_TCPIP_OFFLOAD_TCP_SERVER_SOCKET_LISTEN   1
+#define NX_TCPIP_OFFLOAD_TCP_SERVER_SOCKET_ACCEPT   2
+#define NX_TCPIP_OFFLOAD_TCP_SERVER_SOCKET_UNLISTEN 3
+#define NX_TCPIP_OFFLOAD_TCP_SOCKET_DISCONNECT      4
+#define NX_TCPIP_OFFLOAD_TCP_SOCKET_SEND            5
+#define NX_TCPIP_OFFLOAD_UDP_SOCKET_BIND            6
+#define NX_TCPIP_OFFLOAD_UDP_SOCKET_UNBIND          7
+#define NX_TCPIP_OFFLOAD_UDP_SOCKET_SEND            8
+
 
 /* Define Link Driver Capability Flags.  */
 #ifdef NX_ENABLE_INTERFACE_CAPABILITY
@@ -1320,6 +1387,19 @@ typedef struct NX_IPV6_DEFAULT_ROUTER_ENTRY_STRUCT
 #define NX_INTERFACE_CAPABILITY_IGMP_TX_CHECKSUM   0x00000400
 #define NX_INTERFACE_CAPABILITY_IGMP_RX_CHECKSUM   0x00000800
 #define NX_INTERFACE_CAPABILITY_PTP_TIMESTAMP      0x00001000
+#define NX_INTERFACE_CAPABILITY_TCPIP_OFFLOAD      0x00002000
+#define NX_INTERFACE_CAPABILITY_CHECKSUM_ALL       (NX_INTERFACE_CAPABILITY_IPV4_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_IPV4_RX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_TCP_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_TCP_RX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_UDP_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_UDP_RX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_ICMPV4_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_ICMPV4_RX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_ICMPV6_RX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_ICMPV6_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_IGMP_TX_CHECKSUM | \
+                                                    NX_INTERFACE_CAPABILITY_IGMP_RX_CHECKSUM)     
 #endif /* NX_ENABLE_INTERFACE_CAPABILITY */
 
 #define NX_IP_VERSION_V4                           0x4
@@ -1339,12 +1419,20 @@ typedef struct NX_IPV6_DEFAULT_ROUTER_ENTRY_STRUCT
 #define NX_IP_PACKET_OUT                           1
 #endif /* NX_ENABLE_IP_PACKET_FILTER */
 
+/* Define the interface type.  */
+#define NX_INTERFACE_TYPE_UNKNOWN                  0
+#define NX_INTERFACE_TYPE_OTHER                    1
+#define NX_INTERFACE_TYPE_ETHERNET                 2
+#define NX_INTERFACE_TYPE_WIFI                     3
+#define NX_INTERFACE_TYPE_CELLULAR                 4
+#define NX_INTERFACE_TYPE_BLUETOOTH                5
+#define NX_INTERFACE_TYPE_LORAWAN                  6
+#define NX_INTERFACE_TYPE_MAX                      7
 
 #ifdef NX_ENABLE_THREAD
 /* Define the packet type for Thread MLE.  */
 #define NX_PACKET_TYPE_THREAD_MLE                  0x01
 #endif /* NX_ENABLE_THREAD  */
-
 
 /* Define IPv4/v6 Address structure */
 typedef struct NXD_ADDRESS_STRUCT
@@ -1764,7 +1852,12 @@ typedef struct NX_UDP_SOCKET_STRUCT
     /* This pointer is reserved for application specific use.  */
     /*lint -esym(768,NX_UDP_SOCKET_STRUCT::nx_udp_socket_reserved_ptr) suppress member not referenced. It is reserved for future use. */
     void        *nx_udp_socket_reserved_ptr;
-    
+
+#ifdef NX_ENABLE_TCPIP_OFFLOAD
+    /* Store a pointer to TCP/IP offload context.  */
+    VOID        *nx_udp_socket_tcpip_offload_context;
+#endif /* NX_ENABLE_TCPIP_OFFLOAD */
+
     /* Define the port extension in the UDP socket control block. This 
        is typically defined to whitespace in nx_port.h.  */
     NX_UDP_SOCKET_MODULE_EXTENSION
@@ -1869,9 +1962,22 @@ typedef struct NX_TCP_SOCKET_STRUCT
     /* Define whether or not TCP socket is in fast recovery procedure. */
     UCHAR       nx_tcp_socket_fast_recovery;
 
+#ifdef NX_ENABLE_HTTP_PROXY
+
+    /* Define the state of HTTP Proxy connection.  */
+    UCHAR       nx_tcp_socket_http_proxy_state;
+
+    /* Define the packet to store HTTP response header.  */
+    NX_PACKET   *nx_tcp_socket_http_proxy_header_packet;
+
+    /* Define the IP and port for original server.  */
+    NXD_ADDRESS nx_tcp_socket_original_server_ip;
+    UINT        nx_tcp_socket_original_server_port;
+#else
     /* Reserved to four bytes alignment. */
     /*lint -esym(768,NX_TCP_SOCKET_STRUCT::nx_tcp_socket_reserved) suppress member not referenced. It is reserved for future use. */
     UCHAR       nx_tcp_socket_reserved;
+#endif /* NX_ENABLE_HTTP_PROXY  */
 
     /* Define the entry that this TCP socket belongs to.  */
     struct NX_IP_STRUCT
@@ -2039,6 +2145,11 @@ typedef struct NX_TCP_SOCKET_STRUCT
     UINT  nx_tcp_socket_egress_sa_data_offset;
 
 #endif /* NX_IPSEC_ENABLE */
+
+#ifdef NX_ENABLE_TCPIP_OFFLOAD
+    /* Store a pointer to TCP/IP offload context.  */
+    VOID *nx_tcp_socket_tcpip_offload_context;
+#endif /* NX_ENABLE_TCPIP_OFFLOAD */
 
     /* Define the port extension in the TCP socket control block. This 
        is typically defined to whitespace in nx_port.h.  */
@@ -2244,6 +2355,15 @@ typedef struct NX_INTERFACE_STRUCT
        ARP packet that matches that of nx_interface_ip_probe_address.  */
     VOID        (*nx_interface_ip_conflict_notify_handler)(struct NX_IP_STRUCT *, UINT, ULONG, ULONG, ULONG);
 #endif /* !NX_DISABLE_IPV4  */
+
+#ifdef NX_ENABLE_TCPIP_OFFLOAD
+    /* Define the TCP/IP offload handler. */
+    UINT        (*nx_interface_tcpip_offload_handler)(struct NX_IP_STRUCT *ip_ptr,
+                                                      struct NX_INTERFACE_STRUCT *interface_ptr,
+                                                      VOID *socket_ptr, UINT operation, NX_PACKET *packet_ptr,
+                                                      NXD_ADDRESS *local_ip, NXD_ADDRESS *remote_ip,
+                                                      UINT local_port, UINT *remote_port, UINT wait_option);
+#endif /* NX_ENABLE_TCPIP_OFFLOAD */
 } NX_INTERFACE;
 
 /* Define the static IPv4 routing table entry structure. */
@@ -2569,11 +2689,17 @@ typedef struct NX_IP_STRUCT
     /* Define the IP address change notification callback routine pointer.  */
     VOID        (*nx_ip_address_change_notify)(struct NX_IP_STRUCT *, VOID *);
     VOID        *nx_ip_address_change_notify_additional_info;
+
+    /* Define the internal IP address change notification callback routine pointer, used in mDNS.  */
+    VOID        (*nx_ip_address_change_notify_internal)(struct NX_IP_STRUCT *, VOID *);
 #endif /* !NX_DISABLE_IPV4  */
 
 #ifdef FEATURE_NX_IPV6
 #ifdef NX_ENABLE_IPV6_ADDRESS_CHANGE_NOTIFY
     VOID        (*nx_ipv6_address_change_notify)(struct NX_IP_STRUCT *ip_ptr, UINT status, UINT interface_index, UINT addres_index, ULONG *ip_address);
+
+    /* Define the internal IPv6 address change notification callback routine pointer, used in mDNS.  */
+    VOID        (*nx_ipv6_address_change_notify_internal)(struct NX_IP_STRUCT *ip_ptr, UINT status, UINT interface_index, UINT addres_index, ULONG *ip_address);
 #endif /* NX_ENABLE_IPV6_ADDRESS_CHANGE_NOTIFY */
 #endif /* FEATURE_NX_IPV6 */
 
@@ -2720,6 +2846,21 @@ typedef struct NX_IP_STRUCT
        by issuing the nx_tcp_server_socket_listen service.  */
     NX_TCP_LISTEN
                 *nx_ip_tcp_active_listen_requests;
+
+#ifdef NX_ENABLE_HTTP_PROXY
+    /* Define the IP address of HTTP proxy server.  */
+    NXD_ADDRESS nx_ip_http_proxy_ip_address;
+
+    /* Define the port of HTTP proxy server.  */
+    USHORT      nx_ip_http_proxy_port;
+
+    /* Define the flag indicating the HTTP proxy is enabled.  */
+    USHORT      nx_ip_http_proxy_enable;
+
+    /* Define the buffer for HTTP proxy authentication.  */
+    UCHAR       nx_ip_http_proxy_authentication[NX_HTTP_PROXY_MAX_AUTHENTICATION];
+    UINT        nx_ip_http_proxy_authentication_length;
+#endif /* NX_ENABLE_HTTP_PROXY */
 
     /* Define a flag indicating the IP fast timer has been created */
     UINT        nx_ip_fast_periodic_timer_created;
@@ -2913,6 +3054,10 @@ typedef struct NX_IP_STRUCT
 #ifdef NX_ENABLE_IP_PACKET_FILTER
     /* Define the IP packet filter routine.  */
     UINT        (*nx_ip_packet_filter)(VOID *, UINT);
+
+    /* Define the IP packet filter extended routine.  */
+    /* Note: Developers are encouraged to use nx_ip_packet_filter_extended since nx_ip_packet_filter will be deprecated.*/
+    UINT        (*nx_ip_packet_filter_extended)(struct NX_IP_STRUCT *ip_ptr, NX_PACKET *packet_ptr, UINT direction);
 #endif /* NX_ENABLE_IP_PACKET_FILTER */
 
     /* Define the port extension in the IP control block. This 
@@ -3168,6 +3313,7 @@ typedef struct NX_IP_DRIVER_STRUCT
 
 /* APIs for others. */
 #define nx_system_initialize                            _nx_system_initialize
+#define nx_http_proxy_client_enable                     _nx_http_proxy_client_enable
 
 #else
 
@@ -3355,6 +3501,7 @@ typedef struct NX_IP_DRIVER_STRUCT
 
 /* APIs for others. */
 #define nx_system_initialize                            _nx_system_initialize
+#define nx_http_proxy_client_enable                     _nxe_http_proxy_client_enable
 #endif
 
 
@@ -3692,6 +3839,8 @@ UINT nxd_udp_packet_info_extract(NX_PACKET *packet_ptr, NXD_ADDRESS *ip_address,
 
 /* APIs for others. */
 VOID nx_system_initialize(VOID);
+UINT nx_http_proxy_client_enable(NX_IP *ip_ptr, NXD_ADDRESS *proxy_server_ip, UINT proxy_server_port,
+                                 UCHAR *username, UINT username_length, UCHAR *password, UINT password_length);
 
 /* Define several function prototypes for exclusive use by NetX I/O drivers.  These routines
    are used by NetX drivers to report received packets to NetX.  */
@@ -3745,6 +3894,18 @@ VOID _nx_ip_packet_receive(NX_IP *ip_ptr, NX_PACKET *packet_ptr);
    to notify NetX of link status event, however, it results in the most amount of
    processing in the driver's receive ISR.  */
 VOID _nx_ip_driver_link_status_event(NX_IP *ip_ptr, UINT interface_index);
+
+#ifdef NX_ENABLE_TCPIP_OFFLOAD
+/* Define the direct TCP packet receive processing.  This is used with TCP/IP offload feature.  */
+VOID _nx_tcp_socket_driver_packet_receive(NX_TCP_SOCKET *socket_ptr, NX_PACKET *packet_ptr);
+
+/* Define the direct TCP established processing.  This is used with TCP/IP offload feature.  */
+UINT _nx_tcp_socket_driver_establish(NX_TCP_SOCKET *socket_ptr, NX_INTERFACE *interface_ptr, UINT remote_port);
+
+/* Define the direct UDP packet receive processing.  This is used with TCP/IP offload feature.  */
+VOID _nx_udp_socket_driver_packet_receive(NX_UDP_SOCKET *socket_ptr, NX_PACKET *packet_ptr,
+                                          NXD_ADDRESS *local_ip, NXD_ADDRESS *remote_ip, UINT remote_port);
+#endif /* NX_ENABLE_TCPIP_OFFLOAD */
 
 #endif
 
@@ -3823,6 +3984,7 @@ VOID _nx_ip_driver_link_status_event(NX_IP *ip_ptr, UINT interface_index);
 /* Utility functions.  */
 UINT _nx_utility_string_length_check(CHAR *input_string, UINT *string_length, UINT max_string_length);
 UINT _nx_utility_string_to_uint(CHAR *input_string, UINT string_length, UINT *number);
+UINT _nx_utility_uint_to_string(UINT number, UINT base, CHAR *string_buffer, UINT string_buffer_size);
 UINT _nx_utility_base64_encode(UCHAR *name, UINT name_size, UCHAR *base64name, UINT base64name_size, UINT *bytes_copied);
 UINT _nx_utility_base64_decode(UCHAR *base64name, UINT base64name_size, UCHAR *name, UINT name_size, UINT *bytes_copied);
 

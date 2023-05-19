@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stm32l4r9i_discovery.h"
+#include "ux_device_descriptors.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -46,24 +46,25 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define USBD_DFU_APP_DEFAULT_ADDR       0x08020000
-#define USBD_DFU_APP_START_ADDR         0x20000000
-#define USBD_DFU_APP_MASK               0x2FFC0000
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_USB_OTG_FS_PCD_Init(void);
 
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define JOY_SEL_Pin GPIO_PIN_13
-#define JOY_SEL_GPIO_Port GPIOC
-void   MX_USB_OTG_FS_PCD_Init(void);
-/* USER CODE BEGIN Private defines */
+#define BUTTON_USER_Pin GPIO_PIN_13
+#define BUTTON_USER_GPIO_Port GPIOC
 
+/* USER CODE BEGIN Private defines */
+#define USBD_DFU_APP_DEFAULT_ADDR       0x08020000
+#define USBD_DFU_APP_START_ADDR         0x20000000
+#define USBD_DFU_APP_MASK               0x2FFC0000
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

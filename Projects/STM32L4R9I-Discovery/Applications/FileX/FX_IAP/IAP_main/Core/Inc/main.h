@@ -32,9 +32,6 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include "app_filex.h"
-#include "stm32l4r9i_discovery.h"
-#include "stm32l4r9i_discovery_io.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -54,15 +51,20 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-void   MX_SDMMC1_SD_Init(void);
-/* USER CODE BEGIN Private defines */
+#define BUTTON_USER_Pin GPIO_PIN_13
+#define BUTTON_USER_GPIO_Port GPIOC
 
+/* USER CODE BEGIN Private defines */
+/* Flash address to load APP from */
+#define APP_ADDRESS      0x08100000
+#define FW_NAME_STRING   "STM32_FW_UPGRADE.BIN"
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

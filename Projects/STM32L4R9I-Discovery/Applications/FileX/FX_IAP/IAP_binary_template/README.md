@@ -14,6 +14,10 @@ IAP_binary_template should toggle both LEDs.
 ### <b>Error behaviour:</b>
 On failure, orange LED should toggle.
 
+### <b>Keywords</b>
+
+IAP, binary, template
+
 ### <b>Note</b>
 This application can be debugged using IAR by going into **Project** menu and click **Attach to Running Target**.
 

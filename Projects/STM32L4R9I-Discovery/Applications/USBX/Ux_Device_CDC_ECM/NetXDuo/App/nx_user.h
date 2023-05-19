@@ -24,7 +24,7 @@
 /*  PORT SPECIFIC C INFORMATION                            RELEASE        */
 /*                                                                        */
 /*    nx_user.h                                           PORTABLE C      */
-/*                                                           6.0          */
+/*                                                           6.1.11       */
 /*                                                                        */
 /*  AUTHOR                                                                */
 /*                                                                        */
@@ -43,11 +43,22 @@
 /*    DATE              NAME                      DESCRIPTION             */
 /*                                                                        */
 /*  05-19-2020     Yuxin Zhou               Initial Version 6.0           */
+/*  09-30-2020     Yuxin Zhou               Modified comment(s),          */
+/*                                            resulting in version 6.1    */
+/*  08-02-2021     Yuxin Zhou               Modified comment(s), and      */
+/*                                            supported TCP/IP offload,   */
+/*                                            resulting in version 6.1.8  */
+/*  04-25-2022     Yuxin Zhou               Modified comment(s),          */
+/*                                            resulting in version 6.1.11 */
 /*                                                                        */
 /**************************************************************************/
 
 #ifndef NX_USER_H
 #define NX_USER_H
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /* Define various build options for the NetX Duo port. The application should
    either make changes here by commenting or un-commenting the conditional
@@ -72,7 +83,9 @@
 
 /* If defined, the link driver is able to specify extra capability, such as
    checksum offloading features. */
+/*
 #define NX_ENABLE_INTERFACE_CAPABILITY
+*/
 
 /* NX_PHYSICAL_HEADER Specifies the size in bytes of the physical header of
    the frame. */
@@ -144,8 +157,8 @@
 #define NX_ENABLE_EXTENDED_NOTIFY_SUPPORT
 */
 
-/* Defined, NetX Duo is built with NAT process. By default this option is not
-   defined. */
+/* Defined, NetX Duo is built with NAT process. This option is defined when the
+   component Addons NAT is selected and NX_DISABLE_IPV4 is not selected. */
 /*
 #define NX_NAT_ENABLE
 */
@@ -170,11 +183,6 @@
 /* Defined, packet debug information is enabled.  */
 /*
 #define NX_ENABLE_PACKET_DEBUG_INFO
-*/
-
-/* If defined, the packet chain feature is removed. */
-/*
-#define NX_DISABLE_PACKET_CHAIN
 */
 
 /* Defined, disables packet pool information gathering. */
@@ -392,7 +400,9 @@
 /* Disables IPv6 functionality when the NetX Duo library is built.
    For applications that do not need IPv6, this avoids pulling in code and
    additional storage space needed to support IPv6. */
+/*
 #define NX_DISABLE_IPV6
+*/
 
 /* Defined, enable IPV6 features. */
 /*
@@ -933,37 +943,11 @@
 #define NX_DHCP_CLIENT_SEND_ARP_PROBE
 */
 
-/* Defines the length of time the DHCP Client waits for a response after
-   sending an ARP probe. The default value is one second
-   (1 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_DHCP_ARP_PROBE_WAIT          (1 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Defines the minimum variation in the interval between sending ARP probes.
-   The value is defaulted to 1 second. */
-/*
-#define NX_DHCP_ARP_PROBE_MIN               (1 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Defines the maximum variation in the interval between sending ARP probes.
-   The value is defaulted to 2 seconds. */
-/*
-#define NX_DHCP_ARP_PROBE_MAX               (2 * NX_IP_PERIODIC_RATE)
-*/
-
 /* Defines the number of ARP probes sent for determining if the IP address
    assigned by the DHCP server is already in use. The value is defaulted to
    3 probes. */
 /*
 #define NX_DHCP_ARP_PROBE_NUM               3
-*/
-
-/* Defines the length of time the DHCP Client waits to restart DHCP if the IP
-   address assigned to the DHCP Client is already in use. The value is defaulted
-   to 10 seconds. */
-/*
-#define NX_DHCP_RESTART_WAIT                (10 * NX_IP_PERIODIC_RATE)
 */
 
 /* Specifies the maximum number of interface records to save to the DHCP Client
@@ -998,14 +982,6 @@
 #define NX_DHCP_THREAD_STACK_SIZE           (4096)
 */
 
-/* Interval in seconds when the DHCP Client timer expiration function executes.
-   This function updates all the timeouts in the DHCP process e.g. if messages
-   should be retransmitted or DHCP Client state changed. By default, this
-   value is 1 second. */
-/*
-#define NX_DHCP_TIME_INTERVAL               (1 * NX_IP_PERIODIC_RATE)
-*/
-
 /* Size of DHCP options buffer. By default, this value is 312 bytes. */
 /*
 #define NX_DHCP_OPTIONS_BUFFER_SIZE         312
@@ -1026,29 +1002,6 @@
 #define NX_DHCP_PACKET_POOL_SIZE            (5 * NX_DHCP_PACKET_PAYLOAD)
 */
 
-/* Specifies the minimum wait option for receiving a DHCP Server reply to
-   client message before retransmitting the message. The default value is the
-   RFC 2131 recommended 4 seconds. */
-/*
-#define NX_DHCP_MIN_RETRANS_TIMEOUT         (4 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the maximum wait option for receiving a DHCP Server reply to
-   client message before retransmitting the message. The default value is
-   64 seconds. */
-/*
-#define NX_DHCP_MAX_RETRANS_TIMEOUT         (64 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies minimum wait option for receiving a DHCP Server message and sending
-   a renewal request after the DHCP Client is bound to an IP address.
-   The default value is 60 seconds. However, the DHCP Client uses the Renew and
-   Rebind expiration times from the DHCP server message before defaulting to the
-   minimum renew timeout. */
-/*
-#define NX_DHCP_MIN_RENEW_TIMEOUT           (60 * NX_IP_PERIODIC_RATE)
-*/
-
 /*****************************************************************************/
 /****************** Configuration options for DHCP Server ********************/
 /*****************************************************************************/
@@ -1057,13 +1010,6 @@
    this value specifies that the DHCP thread runs at priority 2. */
 /*
 #define NX_DHCP_SERVER_THREAD_PRIORITY          2
-*/
-
-/* Specifies the timeout in timer ticks for the NetX DHCP Server to wait for
-   allocate a packet from its packet pool. The default value is set to
-   NX_IP_PERIODIC_RATE. */
-/*
-#define NX_DHCP_PACKET_ALLOCATE_TIMEOUT         NX_IP_PERIODIC_RATE
 */
 
 /* This is the subnet mask the DHCP Client should be configured with.
@@ -1124,6 +1070,16 @@
 #define NX_DHCP_CLIENT_HOSTNAME_MAX             32
 */
 
+/* Define the DHCP server thread stack size. */
+/*
+#define NX_DHCP_SERVER_THREAD_STACK_SIZE           1024
+*/
+
+/* Define name of DHCP server. */
+/*
+#define NX_DHCP_SERVER_NAME       "NetX DHCP Server"
+*/
+
 /*****************************************************************************/
 /****************** Configuration options for DHCP IPV6 **********************/
 /*****************************************************************************/
@@ -1173,12 +1129,6 @@
    The default value is TX_WAIT_FOREVER. */
 /*
 #define NX_DHCPV6_MUTEX_WAIT                    TX_WAIT_FOREVER
-*/
-
-/* Ratio of ticks to seconds. This is processor dependent.
-   The default value is 100. */
-/*
-#define NX_DHCPV6_TICKS_PER_SECOND              (NX_IP_PERIODIC_RATE)
 */
 
 /* Time interval in seconds at which the IP lifetime timer updates the length
@@ -1262,22 +1212,6 @@
 /* Sets the enterprise type of the DUID to private vendor type. */
 /*
 #define NX_DHCPV6_SERVER_DUID_VENDOR_PRIVATE_ID     0x12345678
-*/
-
-/* This defines the wait option for the Server nx_udp_socket_receive call.
-   This is perfunctory since the socket has a receive notify callback from
-   NetX Duo, so the packet is already enqueued when the DHCPv6 server calls
-   the receive function.
-   The default value is 1 second (1 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_DHCPV6_PACKET_WAIT_OPTION            NX_IP_PERIODIC_RATE
-*/
-
-/* This defines the Server DUID type which the Server includes in all messages
-   to Clients. The default value is link layer plus time
-   (NX_DHCPV6_SERVER_DUID_TYPE_LINK_TIME). */
-/*
-#define NX_DHCPV6_SERVER_DUID_TYPE              NX_DHCPV6_DUID_TYPE_LINK_TIME
 */
 
 /* This defines the preference option value between 0 and 255, where the higher
@@ -1499,18 +1433,6 @@
 #define NX_DNS_CACHE_ENABLE
 */
 
-/* This sets the timeout option for allocating a packet from the DNS client
-   packet pool. The default value is 1 second (1*NX_IP_PERIODIC_RATE). */
-/*
-#define NX_DNS_PACKET_ALLOCATE_TIMEOUT          NX_IP_PERIODIC_RATE
-*/
-
-/* The maximum retransmission timeout on a DNS query to a specific DNS server.
-   The default value is 64 seconds (64 * NX_IP_PERIODIC_RATE) */
-/*
-#define NX_DNS_MAX_RETRANS_TIMEOUT             (64 * NX_IP_PERIODIC_RATE)
-*/
-
 /*****************************************************************************/
 /********************* Configuration options for MQTT ************************/
 /*****************************************************************************/
@@ -1527,26 +1449,6 @@
    defined. */
 /*
 #define NXD_MQTT_REQUIRE_TLS
-*/
-
-/* Defines the MQTT timer rate, in ThreadX timer ticks. This timer is used to
-   keep track of the time since last MQTT control message was sent, and sends
-   out an MQTT PINGREQ message before the keep-alive time expires. This timer
-   is activated if the client connects to the broker with a keep-alive timer
-   value set. The default value is TX_TIMER_TICKS_PER_SECOND, which is a
-   one-second timer. The default value is TX_TIMER_TICKS_PER_SECOND. */
-/*
-#define NXD_MQTT_KEEPALIVE_TIMER_RATE           (NX_IP_PERIODIC_RATE)
-*/
-
-/* Defines the MQTT timer rate, in ThreadX timer ticks. This timer is used to
-   keep track of the time since last MQTT control message was sent, and sends
-   out an MQTT PINGREQ message before the keep-alive time expires. This timer
-   is activated if the client connects to the broker with a keep-alive timer
-   value set. The default value is TX_TIMER_TICKS_PER_SECOND, which is a
-   one-second timer. */
-/*
-#define NXD_MQTT_PING_TIMEOUT_DELAY             (NX_IP_PERIODIC_RATE)
 */
 
 /* Defines the time out in the TCP socket disconnect call when disconnecting
@@ -1594,14 +1496,6 @@
 /********************* Configuration options for HTTP ************************/
 /*****************************************************************************/
 
-/* Defined, this option provides a stub for FileX dependencies. The HTTP Client
-   will function without any change if this option is defined. The HTTP Server
-   will need to either be modified or the user will have to create a handful
-   of FileX services in order to function properly. */
-/*
-#define NX_HTTP_NO_FILEX
-*/
-
 /* Type of service required for the HTTP TCP requests. By default, this value
    is defined as NX_IP_NORMAL to indicate normal IP packet service. */
 /*
@@ -1646,12 +1540,6 @@
 /*****************************************************************************/
 /***************** Configuration options for HTTP Server *********************/
 /*****************************************************************************/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for. The default value is set to 10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_HTTP_SERVER_TIMEOUT                (10 * NX_IP_PERIODIC_RATE)
-*/
 
 /* The number of timer ticks the Server thread is allowed to run before yielding
    to threads of the same priority. The default value is 2. */
@@ -1719,34 +1607,6 @@
 /* Server socket window size. By default, this value is 2048 bytes */
 /*
 #define NX_HTTP_SERVER_WINDOW_SIZE            2048
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-  for in internal nx_tcp_server_socket_accept calls. The default value is set
-  to (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_HTTP_SERVER_TIMEOUT_ACCEPT         (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_receive calls. The default value is set to
-   10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_HTTP_SERVER_TIMEOUT_RECEIVE        (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_send calls. The default value is set to
-   10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_HTTP_SERVER_TIMEOUT_SEND           (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_disconnect calls. The default value is set
-   to 10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_HTTP_SERVER_TIMEOUT_DISCONNECT       (10 * NX_IP_PERIODIC_RATE)
 */
 
 /*****************************************************************************/
@@ -1893,18 +1753,6 @@
 #define NX_MDNS_GOODBYE_TIMER_COUNT        25
 */
 
-/* The minimum time interval, in ticks, between two queries.
-   The default value is 100 ticks for 1 second.*/
-/*
-#define NX_MDNS_QUERY_MIN_TIMER_COUNT        (NX_IP_PERIODIC_RATE)
-*/
-
-/* The maximum time interval, in ticks, between two queries.
-   The default value is 360000 for 60 seconds.*/
-/*
-#define NX_MDNS_QUERY_MAX_TIMER_COUNT        (3600 * NX_IP_PERIODIC_RATE)
-*/
-
 /* The minimum delay for sending first query, in ticks.
    The default value is 2 ticks for 20ms.*/
 /*
@@ -1915,13 +1763,6 @@
    The default value is 10 ticks for 100ms.*/
 /*
 #define NX_MDNS_QUERY_DELAY_RANGE        10
-*/
-
-/* The time interval, in ticks, in responding to a query to ensure
-   an interval of at least 1s since the last time the record was multicast.
-   The default value is 100 ticks (NX_IP_PERIODIC_RATE).*/
-/*
-#define NX_MDNS_RESPONSE_INTERVAL        NX_IP_PERIODIC_RATE
 */
 
 /* The delay, in ticks, in responding to a query to a service that is
@@ -1980,16 +1821,9 @@
 #define NX_MDNS_POOF_MIN_COUNT        2
 */
 
-/* Define the Passive Observation Of Failures timer count,
-   10 seconds in spec (10 * NX_IP_PERIODIC_RATE).*/
+/* Disable the mDNS Client functionality.  By default, mDNS client function is enabled. */
 /*
-#define NX_MDNS_POOF_TIMER_COUNT        (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* The delay for deleting a resource record when the TTL of
-   this record is zero, in ticks, The default value is 100 ticks for 1 second (NX_IP_PERIODIC_RATE).*/
-/*
-#define NX_MDNS_RR_DELETE_DELAY_TIMER_COUNT        (NX_IP_PERIODIC_RATE)
+#define NX_MDNS_DISABLE_CLIENT
 */
 
 /*****************************************************************************/
@@ -2099,20 +1933,6 @@
 #define NX_PPP_HASHED_VALUE_SIZE       16
 */
 
-/* This defines the period rate (in timer ticks) that the PPP
-  thread task is woken to check for PPP events.
-  The default value is 1*NX_IP_PERIODIC_RATE (100 ticks).*/
-/*
-#define NX_PPP_BASE_TIMEOUT       (NX_IP_PERIODIC_RATE * 1)
-*/
-
-/* This defines the wait option (in timer ticks) for allocating packets
-   to transmit data as well as buffer PPP serial data into packets to
-   send to the IP layer. The default value is 4*NX_IP_PERIODIC_RATE (400 ticks).*/
-/*
-#define NX_PPP_TIMEOUT       (NX_IP_PERIODIC_RATE * 4)
-*/
-
 /* This defines the number of times the PPP thread task times out
    waiting to receive the next character in a PPP message stream.
    Thereafter, PPP releases the packet and begins waiting to
@@ -2176,6 +1996,11 @@
 #define NX_PPP_MIN_PACKET_PAYLOAD        (NX_PPP_PACKET + 128)
 */
 
+/* Size of the NAK list.*/
+/*
+#define NX_PPP_OPTION_MESSAGE_LENGTH        64
+*/
+
 /*****************************************************************************/
 /******************** Configuration options for SNTP *************************/
 /*****************************************************************************/
@@ -2235,12 +2060,6 @@
    are released. The default NetX Duo SNTP Client is set to 5. */
 /*
 #define NX_SNTP_CLIENT_MAX_QUEUE_DEPTH          5
-*/
-
-/* Time out for NetX Duo packet allocation. The default NetX Duo SNTP Client
-   packet timeout is 1 second. */
-/*
-#define NX_SNTP_CLIENT_PACKET_TIMEOUT           (1 * NX_IP_PERIODIC_RATE)
 */
 
 /* SNTP version used by the Client The NetX Duo SNTP Client API was based on
@@ -2449,40 +2268,6 @@
 #define NX_WEB_HTTP_SERVER_WINDOW_SIZE          8192
 */
 
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_server_socket_accept() calls. The default value is
-   set to (1 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_WEB_HTTP_SERVER_TIMEOUT_ACCEPT       (1 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_receive() calls. The default value is set to
-   10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_WEB_HTTP_SERVER_TIMEOUT_RECEIVE      (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_send() calls. The default value is set to 10
-   seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_WEB_HTTP_SERVER_TIMEOUT_SEND         (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend
-   for in internal nx_tcp_socket_disconnect() calls. The default value is set
-   to 10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_WEB_HTTP_SERVER_TIMEOUT_DISCONNECT   (10 * NX_IP_PERIODIC_RATE)
-*/
-
-/* Specifies the number of ThreadX ticks that internal services will suspend for.
-   The default value is set to 10 seconds (10 * NX_IP_PERIODIC_RATE). */
-/*
-#define NX_WEB_HTTP_SERVER_TIMEOUT              (10 * NX_IP_PERIODIC_RATE)
-*/
-
 /* Specifies the number of simultaneous sessions for an HTTP or HTTPS Server.
    A TCP socket and a TLS session (if HTTPS is enabled) are allocated for each
    session. The default value is set to 2. */
@@ -2541,5 +2326,19 @@
 /*
 #define NX_WEB_HTTP_SERVER_RETRY_MAX            10
 */
+
+/* Defined, the TCP/IP offload feature is enabled.
+   NX_ENABLE_INTERFACE_CAPABILITY must be defined to enable this feature.  */
+/* #define NX_ENABLE_TCPIP_OFFLOAD */
+
+#ifdef NX_DISABLE_IPV6
+#ifdef NX_DISABLE_IPV4
+#error "At least one of the IPv4 or IPv6 protocols must be enabled"
+#endif
+#endif
+
+/* USER CODE BEGIN 2 */
+
+/* USER CODE END 2 */
 
 #endif /* NX_USER_H */

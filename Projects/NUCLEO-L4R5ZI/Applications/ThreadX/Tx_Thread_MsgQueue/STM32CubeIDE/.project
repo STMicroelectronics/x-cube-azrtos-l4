@@ -66,9 +66,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/stm32l4xx_it.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/tx_initialize_low_level.s</name>
+			<name>Application/User/tx_initialize_low_level.S</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/tx_initialize_low_level.s</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/tx_initialize_low_level.S</locationURI>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32l4xx.c</name>
@@ -121,16 +121,6 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_gpio.c</locationURI>
 		</link>
 		<link>
-			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.c</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c</locationURI>
-		</link>
-		<link>
-			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.c</name>
-			<type>1</type>
-			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c</locationURI>
-		</link>
-		<link>
 			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c</locationURI>
@@ -159,6 +149,16 @@
 			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_uart.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_uart_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_block_allocate.c</name>
@@ -494,6 +494,16 @@
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_control.S</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_control.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_disable.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_disable.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_restore.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_restore.S</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_preemption_change.c</name>

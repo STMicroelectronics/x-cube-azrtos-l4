@@ -17,6 +17,7 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __APP_THREADX_H__
 #define __APP_THREADX_H__
@@ -24,7 +25,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 /* Includes ------------------------------------------------------------------*/
 #include "tx_api.h"
 
@@ -43,21 +43,12 @@ extern "C" {
 
 /* USER CODE END EC */
 
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
-/* USER CODE END EM */
-
-/* Exported functions prototypes ---------------------------------------------*/
-UINT App_ThreadX_Init(VOID *memory_ptr);
-void MX_ThreadX_Init(void);
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
-
 /* Private defines -----------------------------------------------------------*/
+#define TX_APP_STACK_SIZE                       512
+#define TX_APP_THREAD_PRIO                      10
 /* USER CODE BEGIN PD */
 #define USE_TX_MUTEX
+/*#define USE_TX_SEMAPHORE*/
 
 #if defined(USE_TX_MUTEX) && defined(USE_TX_SEMAPHORE)
 #error "Only one synchronization API must be enabled"
@@ -70,7 +61,7 @@ void MX_ThreadX_Init(void);
 
 #define APP_SYNC_GET                         tx_mutex_get
 #define APP_SYNC_PUT                         tx_mutex_put
-#define APP_SYNC_CREATE(a)                   tx_mutex_create((a),"App Mutex", TX_NO_INHERIT)
+#define APP_SYNC_CREATE(a)                   tx_mutex_create((a),"tx app mutex", TX_NO_INHERIT)
 
 #else
 /* define TX_SEMAPHORE  as sync object*/
@@ -79,20 +70,40 @@ void MX_ThreadX_Init(void);
 
 #define APP_SYNC_GET                         tx_semaphore_get
 #define APP_SYNC_PUT(a)                      tx_semaphore_ceiling_put((a), 1)
-#define APP_SYNC_CREATE(a)                   tx_semaphore_create((a),"App Binary Semaphore", 1)
+#define APP_SYNC_CREATE(a)                   tx_semaphore_create((a),"tx app binary semaphore", 1)
 #endif
 
-#define APP_STACK_SIZE                       512
-#define APP_BYTE_POOL_SIZE                   (2 * 1024)
-
-#define THREAD_ONE_PRIO                      10
-#define THREAD_ONE_PREEMPTION_THRESHOLD      THREAD_ONE_PRIO
-
-#define THREAD_TWO_PRIO                      10
-#define THREAD_TWO_PREEMPTION_THRESHOLD      THREAD_TWO_PRIO
-
-#define DEFAULT_TIME_SLICE                   5
+#define TX_APP_THREAD_TIME_SLICE             5
 /* USER CODE END PD */
+
+/* Main thread defines -------------------------------------------------------*/
+#ifndef TX_APP_THREAD_PREEMPTION_THRESHOLD
+#define TX_APP_THREAD_PREEMPTION_THRESHOLD      TX_APP_THREAD_PRIO
+#endif
+
+#ifndef TX_APP_THREAD_TIME_SLICE
+#define TX_APP_THREAD_TIME_SLICE                TX_NO_TIME_SLICE
+#endif
+#ifndef TX_APP_THREAD_AUTO_START
+#define TX_APP_THREAD_AUTO_START                TX_AUTO_START
+#endif
+/* USER CODE BEGIN MTD */
+
+/* USER CODE END MTD */
+
+/* Exported macro ------------------------------------------------------------*/
+
+/* USER CODE BEGIN EM */
+
+/* USER CODE END EM */
+
+/* Exported functions prototypes ---------------------------------------------*/
+UINT App_ThreadX_Init(VOID *memory_ptr);
+void MX_ThreadX_Init(void);
+void ThreadOne_Entry(ULONG thread_input);
+/* USER CODE BEGIN EFP */
+
+/* USER CODE END EFP */
 
 /* USER CODE BEGIN 1 */
 

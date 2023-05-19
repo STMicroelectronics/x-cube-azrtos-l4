@@ -1,3 +1,4 @@
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -27,12 +28,11 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "fx_api.h"
-
 #include "fx_stm32_sd_driver.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stm32l4r9i_discovery.h"
-#include "stm32l4r9i_discovery_io.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -52,30 +52,40 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 UINT MX_FileX_Init(VOID *memory_ptr);
-
 /* USER CODE BEGIN EFP */
 int32_t SD_IsDetected(uint32_t Instance);
-uint8_t SD_ITConfig(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-#define SD_DETECT_PIN_BSP                GPIO_PIN_5
+/* Main thread Name */
+#ifndef FX_APP_THREAD_NAME
+  #define FX_APP_THREAD_NAME "FileX app thread"
+#endif
 
+/* Main thread time slice */
+#ifndef FX_APP_THREAD_TIME_SLICE
+  #define FX_APP_THREAD_TIME_SLICE TX_NO_TIME_SLICE
+#endif
+
+/* Main thread auto start */
+#ifndef FX_APP_THREAD_AUTO_START
+  #define FX_APP_THREAD_AUTO_START TX_AUTO_START
+#endif
+
+/* Main thread preemption threshold */
+#ifndef FX_APP_PREEMPTION_THRESHOLD
+  #define FX_APP_PREEMPTION_THRESHOLD FX_APP_THREAD_PRIO
+#endif
+
+/* fx sd volume name */
+#ifndef FX_SD_VOLUME_NAME
+  #define FX_SD_VOLUME_NAME "STM32_SDIO_DISK"
+#endif
+
+/* USER CODE BEGIN PD */
 #define SD_PRESENT                       1UL
 #define SD_NOT_PRESENT                   0UL
-#define DEFAULT_STACK_SIZE               (2 * 1024)
-#define DEFAULT_QUEUE_LENGTH             16
-/* fx_sd_thread priority */
-#define DEFAULT_THREAD_PRIO              10
-/* fx_sd_thread preemption priority */
-#define DEFAULT_PREEMPTION_THRESHOLD     DEFAULT_THREAD_PRIO
-/* Message content*/
-typedef enum {
-CARD_STATUS_CHANGED             = 99,
-CARD_STATUS_DISCONNECTED        = 88,
-CARD_STATUS_CONNECTED           = 77
-} SD_ConnectionStateTypeDef;
+
 /* USER CODE END PD */
 
 /* USER CODE BEGIN 1 */

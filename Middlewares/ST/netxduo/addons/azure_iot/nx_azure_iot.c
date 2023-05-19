@@ -10,23 +10,21 @@
 /**************************************************************************/
 
 /* Version: 6.1 */
+#include <stdio.h>
+#include <stdarg.h>
 
-#include "nx_azure_iot.h"
+
 #ifndef NX_AZURE_DISABLE_IOT_SECURITY_MODULE
 #include "nx_azure_iot_security_module.h"
 #endif /* NX_AZURE_DISABLE_IOT_SECURITY_MODULE */
 
-#include <stdio.h>
-#include <stdarg.h>
+#include "nx_azure_iot.h"
 
 #include "azure/core/internal/az_log_internal.h"
 
 #ifndef NX_AZURE_IOT_WAIT_OPTION
 #define NX_AZURE_IOT_WAIT_OPTION NX_WAIT_FOREVER
 #endif /* NX_AZURE_IOT_WAIT_OPTION */
-
-/* Define offset of MQTT telemetry packet.  */
-#define NX_AZURE_IOT_PUBLISH_PACKET_START_OFFSET   7
 
 /* Convert number to upper hex.  */
 #define NX_AZURE_IOT_NUMBER_TO_UPPER_HEX(number)    (CHAR)(number + (number < 10 ? '0' : 'A' - 10))
@@ -167,14 +165,6 @@ static VOID nx_azure_iot_log_listener(az_log_classification classification, az_s
 
 VOID nx_azure_iot_log_init(VOID(*log_callback)(az_log_classification classification, UCHAR *msg, UINT msg_len))
 {
-static az_log_classification const classifications[] = {AZ_LOG_IOT_AZURERTOS,
-                                                        AZ_LOG_MQTT_RECEIVED_TOPIC,
-                                                        AZ_LOG_MQTT_RECEIVED_PAYLOAD,
-                                                        AZ_LOG_IOT_RETRY,
-                                                        AZ_LOG_IOT_SAS_TOKEN,
-                                                        _az_LOG_END_OF_LIST};
-
-    _az_log_set_classifications(classifications);
     _nx_azure_iot_log_callback = log_callback;
     az_log_set_message_callback(nx_azure_iot_log_listener);
 }
@@ -418,12 +408,12 @@ USHORT id = 0;
     return(NX_AZURE_IOT_SUCCESS);
 }
 
-UINT nx_azure_iot_mqtt_packet_id_get(NXD_MQTT_CLIENT *client_ptr, UCHAR *packet_id, UINT wait_option)
+UINT nx_azure_iot_mqtt_packet_id_get(NXD_MQTT_CLIENT *client_ptr, UCHAR *packet_id)
 {
 UINT status;
 
     /* Get packet id under mutex */
-    status = tx_mutex_get(client_ptr -> nxd_mqtt_client_mutex_ptr, wait_option);
+    status = tx_mutex_get(client_ptr -> nxd_mqtt_client_mutex_ptr, NX_WAIT_FOREVER);
     if (status)
     {
         return(status);

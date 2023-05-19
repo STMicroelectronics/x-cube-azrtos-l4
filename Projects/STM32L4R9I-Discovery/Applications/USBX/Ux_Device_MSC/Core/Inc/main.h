@@ -32,7 +32,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stm32l4r9i_discovery.h"
-#include "stm32l4r9i_discovery_sd.h"
+#include "stm32l4r9i_discovery_io.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -52,16 +52,18 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_USB_OTG_FS_PCD_Init(void);
+void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-void   MX_USB_OTG_FS_PCD_Init(void);
-void   MX_SDMMC1_SD_Init(void);
-/* USER CODE BEGIN Private defines */
 
+/* USER CODE BEGIN Private defines */
+#define SD_PRESENT                       1UL
+#define SD_NOT_PRESENT                   0UL
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -2,7 +2,7 @@
 ## <b>Tx_MPU application description</b>
 
 This application provides an example of Azure RTOS ThreadX stack usage, it shows how to develop an application using the ThreadX Module feature.
-It demonstrates how to load, start and unload modules. In addition, it shows how ThreadX memory protection on modules using the Memory Protection Unit (MPU).
+It demonstrates how to load, start and unload modules. In addition, it shows how ThreadX memory protection on modules using the Memory Protection Unit (MPU). 
 
 This project is composed of two sub-projects:
 
@@ -28,7 +28,7 @@ MainThread is expected to execute data read and write operations to/from user-de
 
 #### <b>Error behaviors</b>
 
-On failure, the orange LED starts toggeling while the green LED is switched OFF.
+On failure, the orange LED starts toggling while the green LED is switched OFF.
 
 #### <b>Assumptions if any</b>
 None
@@ -130,11 +130,11 @@ The above configuration results in an attributes word equals 0x00000007
        Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).
        Read more in STM32CubeIDE User Guide, chapter: "Linker script".
 
-    + The "tx_initialize_low_level.s" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
+    + The "tx_initialize_low_level.S" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
 
 ### <b>Keywords</b>
 
-RTOS, ThreadX, Thread, Message Queue, Module Manager, Module, MPU
+RTOS, ThreadX, Threading, Message Queue, Module Manager, Module, MPU
 
 
 ### <b>Hardware and Software environment</b>

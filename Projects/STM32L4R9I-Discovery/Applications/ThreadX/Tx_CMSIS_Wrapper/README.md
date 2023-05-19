@@ -32,7 +32,7 @@ the compile flags in the file "app_tx_cmsisrtos.h".
 
   - 'LED_GREEN' toggles every 500ms for 5 seconds
   - 'LED_ORANGE' toggles every 500ms for 5 seconds
-  - Messages on HyperTerminal : 
+  - Messages on HyperTerminal :
      + "** ThreadXXX : waiting for SyncObject !! **" : When thread is waiting for the SyncObject.
 	 + "** ThreadXXX : waiting SyncObject released **" : When thread put the SyncObject.
 	 + "** ThreadXXX : waiting SyncObject acquired **" : When thread get the SyncObject.
@@ -69,7 +69,7 @@ None
         LDR r1, =|Image$$RW_IRAM1$$ZI$$Limit|
 	```
     + For STM32CubeIDE add the following section into the .ld file:
-	``` 
+	```
     ._threadx_heap :
       {
          . = ALIGN(8);
@@ -77,19 +77,19 @@ None
          . = . + 64K;
          . = ALIGN(8);
        } >RAM_D1 AT> RAM_D1
-	``` 
-	
+	```
+
        The simplest way to provide memory for ThreadX is to define a new section, see ._threadx_heap above.
        In the example above the ThreadX heap size is set to 64KBytes.
-       The ._threadx_heap must be located between the .bss and the ._user_heap_stack sections in the linker script.	 
-       Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).	 
+       The ._threadx_heap must be located between the .bss and the ._user_heap_stack sections in the linker script.
+       Caution: Make sure that ThreadX does not need more than the provided heap memory (64KBytes in this example).
        Read more in STM32CubeIDE User Guide, chapter: "Linker script".
-	  
+
     + The "tx_initialize_low_level.s" should be also modified to enable the "USE_DYNAMIC_MEMORY_ALLOCATION" flag.
-         
+
 ### <b>Keywords</b>
 
-RTOS, ThreadX, Thread, CMSIS RTOS, Semaphore, Mutex
+RTOS, ThreadX, Threading, CMSIS RTOS, Semaphore, Mutex
 
 ### <b>Hardware and Software environment</b>
 
@@ -110,6 +110,6 @@ RTOS, ThreadX, Thread, CMSIS RTOS, Semaphore, Mutex
 In order to make the program work, you must do the following :
 
  - Open your preferred toolchain
- - Rebuild all files 
+ - Rebuild all files
  - Load images into target memory
  - Run the application

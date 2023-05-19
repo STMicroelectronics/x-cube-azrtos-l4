@@ -52,7 +52,7 @@ void MemManage_Handler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);
 void DebugMon_Handler(void);
-void USART2_IRQHandler(void);
+void EXTI9_5_IRQHandler(void);
 void SDMMC1_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void OTG_FS_IRQHandler(void);
@@ -65,4 +65,3 @@ void OTG_FS_IRQHandler(void);
 #endif
 
 #endif /* __STM32L4xx_IT_H */
-

@@ -172,9 +172,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/stm32l4xx_it.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/Core/tx_initialize_low_level.s</name>
+			<name>Application/User/Core/tx_initialize_low_level.S</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/tx_initialize_low_level.s</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/tx_initialize_low_level.S</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/Components/mfxstm32l152.c</name>
@@ -550,6 +550,16 @@
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_control.S</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_control.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_disable.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_disable.S</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_interrupt_restore.S</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/ports/cortex_m4/gnu/src/tx_thread_interrupt_restore.S</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ThreadX/RTOS/ThreadX/Core/tx_thread_preemption_change.c</name>
@@ -1307,6 +1317,11 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_utility_timer_create.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/USBX/USB/USBX/CoreSystem/ux_utility_timer_delete.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_utility_timer_delete.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/USBX/USB/USBX/CoreSystem/ux_utility_unicode_to_string.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_utility_unicode_to_string.c</locationURI>
@@ -1717,6 +1732,16 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/usbx_stm32_host_controllers/ux_hcd_stm32_request_periodic_transfer.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/USBX/USB/USBX/UX Host Controllers/ux_hcd_stm32_request_trans_finish.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/usbx_stm32_host_controllers/ux_hcd_stm32_request_trans_finish.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USBX/USB/USBX/UX Host Controllers/ux_hcd_stm32_request_trans_prepare.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/usbx_stm32_host_controllers/ux_hcd_stm32_request_trans_prepare.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/USBX/USB/USBX/UX Host Controllers/ux_hcd_stm32_request_transfer.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/usbx_stm32_host_controllers/ux_hcd_stm32_request_transfer.c</locationURI>
@@ -2017,6 +2042,11 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_host_stack_role_swap.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/USBX/USB/USBX/UX Host CoreStack/ux_host_stack_tasks_run.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_host_stack_tasks_run.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/USBX/USB/USBX/UX Host CoreStack/ux_host_stack_transfer_request.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_host_stack_transfer_request.c</locationURI>
@@ -2025,6 +2055,11 @@
 			<name>Middlewares/USBX/USB/USBX/UX Host CoreStack/ux_host_stack_transfer_request_abort.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_host_stack_transfer_request_abort.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USBX/USB/USBX/UX Host CoreStack/ux_host_stack_transfer_run.c</name>
+			<type>1</type>
+			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/usbx/common/core/src/ux_host_stack_transfer_run.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/USBX/USB/USBX/UX Host CoreStack/ux_host_stack_uninitialize.c</name>

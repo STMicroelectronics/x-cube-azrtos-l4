@@ -31,6 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 #include "stm32l4r9i_discovery.h"
 #include "stm32l4r9i_discovery_io.h"
 /* USER CODE END Includes */
@@ -52,13 +53,17 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN EFP */
-void SD_DETECT_PIN_Init(void);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-void   MX_SDMMC1_SD_Init(void);
+#define SD_DETECT_Pin GPIO_PIN_5
+#define SD_DETECT_GPIO_Port GPIOF
+#define SD_DETECT_EXTI_IRQn EXTI9_5_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -37,14 +37,14 @@
 			<locationURI>PARENT-1-PROJECT_LOC/README.md</locationURI>
 		</link>
 		<link>
-			<name>Application/User/main.c</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/main.c</locationURI>
-		</link>
-    <link>
 			<name>Application/User/app_tx_freertos.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/app_tx_freertos.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/main.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/stm32l4xx_hal_msp.c</name>
@@ -62,9 +62,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/stm32l4xx_it.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/tx_initialize_low_level.s</name>
+			<name>Application/User/tx_initialize_low_level.S</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/tx_initialize_low_level.s</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/tx_initialize_low_level.S</locationURI>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32l4xx.c</name>
@@ -156,7 +156,7 @@
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c</locationURI>
 		</link>
-    <link>
+		<link>
 			<name>Middlewares/ThreadX/RTOS_ThreadX_utility_rtos_compatibility_layers_FreeRTOS/tx_freertos.c</name>
 			<type>1</type>
 			<locationURI>PARENT-6-PROJECT_LOC/Middlewares/ST/threadx/utility/rtos_compatibility_layers/FreeRTOS/tx_freertos.c</locationURI>

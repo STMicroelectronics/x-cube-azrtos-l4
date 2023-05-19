@@ -35,15 +35,15 @@ extern "C" {
 #ifdef LX_NOR_OSPI_DRIVER
 #include "lx_stm32_ospi_driver.h"
 
-#define LX_NOR_OSPI_DRIVER_ID             0x02
-#define LX_NOR_OSPI_DRIVER_NAME           "FX Levelx OctoSPI driver"
+#define LX_NOR_OSPI_DRIVER_ID            0x02
+#define LX_NOR_OSPI_DRIVER_NAME          "FX Levelx OctoSPI driver"
 #endif
 
 #ifdef LX_NOR_QSPI_DRIVER
 #include "lx_stm32_qspi_driver.h"
 
-#define LX_NOR_QSPI_DRIVER_ID             0x03
-#define LX_NOR_QSPI_DRIVER_NAME           "FX Levelx QuadSPI driver"
+#define LX_NOR_QSPI_DRIVER_ID           0x03
+#define LX_NOR_QSPI_DRIVER_NAME         "FX Levelx QuadSPI driver"
 #endif
 
 #ifdef LX_NOR_CUSTOM_DRIVER
@@ -70,14 +70,17 @@ extern "C" {
   - Provide the driver ID in the NOR_DEFAULT_DRIVER for example
   #define NOR_DEFAULT_DRIVER LX_NOR_OSPI_DRIVER_ID
 */
+/* USER CODE BEGIN DEFAULT_DRIVER */
+
+/* #define LX_NOR_DEFAULT_DRIVER */
 
 #ifdef LX_NOR_DEFAULT_DRIVER
-/* USER CODE BEGIN LX_NOR_DEFAULT_DRIVER */
 
-/* USER CODE END LX_NOR_DEFAULT_DRIVER */
-#endif
+#endif /* LX_NOR_DEFAULT_DRIVER */
 
-#if !defined(NOR_DEFAULT_DRIVER) && !defined(LX_NOR_CUSTOM_DRIVERS) && !defined(LX_NOR_SIMULATOR_DRIVER) && !defined(LX_NOR_QSPI_DRIVER) && !defined(LX_NOR_OSPI_DRIVER)
+/* USER CODE END DEFAULT_DRIVER */
+
+#if !defined(NOR_DEFAULT_DRIVER) && !defined(LX_NOR_CUSTOM_DRIVERS) && !defined(LX_NOR_SIMULATOR_DRIVER) && !defined(LX_NOR_QSPI_DRIVER)  && !defined(LX_NOR_OSPI_DRIVER)
 #error "[This error was thrown on purpose] : No NOR lowlevel driver defined"
 #endif
 

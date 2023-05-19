@@ -367,8 +367,6 @@
           <state>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/usbx_device_classes/inc/</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/inc/</state>
           <state>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/inc/</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32L4R9I-Discovery</state>
-          <state>$PROJ_DIR$/../../../../../../Drivers/BSP/Components/mfxstm32l152</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1076,7 +1074,7 @@
           <name>$PROJ_DIR$/../Core/Src/main.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$/../Core/Src/tx_initialize_low_level.s</name>
+          <name>$PROJ_DIR$/../Core/Src/tx_initialize_low_level.S</name>
         </file>
         <file>
           <name>$PROJ_DIR$/../Core/Src/app_threadx.c</name>
@@ -1128,13 +1126,13 @@
     <group>
       <name>STM32L4xx_HAL_Driver</name>
       <file>
-        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$/../../../../../../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_rcc.c</name>
@@ -1199,24 +1197,6 @@
       <file>
         <name>$PROJ_DIR$/../Core/Src/system_stm32l4xx.c</name>
       </file>
-    </group>
-    <group>
-      <name>BSP</name>
-      <group>
-        <name>STM32L4R9I-Discovery</name>
-        <file>
-          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/STM32L4R9I-Discovery/stm32l4r9i_discovery_io.c</name>
-        </file>
-      </group>
-      <group>
-        <name>Components</name>
-        <file>
-          <name>$PROJ_DIR$/../../../../../../Drivers/BSP/Components/mfxstm32l152/mfxstm32l152.c</name>
-        </file>
-      </group>
     </group>
   </group>
   <group>
@@ -1457,6 +1437,9 @@
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/core/src/ux_utility_timer_create.c</name>
         </file>
         <file>
+          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/core/src/ux_utility_timer_delete.c</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/core/src/ux_utility_unicode_to_string.c</name>
         </file>
         <file>
@@ -1506,6 +1489,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/usbx_stm32_device_controllers/ux_dcd_stm32_interrupt_handler.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/usbx_stm32_device_controllers/ux_dcd_stm32_transfer_abort.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/usbx/common/usbx_stm32_device_controllers/ux_dcd_stm32_transfer_request.c</name>
@@ -1593,9 +1579,6 @@
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/tx_initialize_kernel_setup.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/src/tx_iar.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/tx_block_allocate.c</name>
@@ -2055,6 +2038,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/common/src/txe_timer_info_get.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$/../../../../../../Middlewares/ST/threadx/ports/cortex_m4/iar/src/tx_iar.c</name>
         </file>
       </group>
     </group>

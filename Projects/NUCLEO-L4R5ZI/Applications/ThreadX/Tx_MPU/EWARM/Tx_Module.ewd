@@ -44,7 +44,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-					<state />
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\ST\STM32L4R5ZI.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -88,7 +88,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>8.50.6.28611</state>
+                    <state>8.50.9.33458</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-					<state />
+                    <state>$TOOLKIT_DIR$\config\flashloader\ST\FlashSTM32L4SxxI.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -1025,7 +1025,7 @@
                 <option>
                     <name>CCSTLinkResetList</name>
                     <version>3</version>
-                    <state>0</state>
+                    <state>4</state>
                 </option>
                 <option>
                     <name>CCCpuClockEdit</name>
@@ -1123,7 +1123,7 @@
                 <option>
                     <name>CCSTLinkProbeList</name>
                     <version>1</version>
-                    <state>0</state>
+                    <state>2</state>
                 </option>
             </data>
         </settings>
@@ -1136,7 +1136,7 @@
                 <debug>1</debug>
                 <option>
                     <name>CThirdPartyDriverDll</name>
-                    <state>###Uninitialized###</state>
+                    <state>Browse to your third-party driver</state>
                 </option>
                 <option>
                     <name>CThirdPartyLogFileCheck</name>
@@ -1182,7 +1182,7 @@
                 </option>
                 <option>
                     <name>CCMSPFetTargetVoltage</name>
-                    <state>###Uninitialized###</state>
+                    <state>3.0</state>
                 </option>
                 <option>
                     <name>CCMSPFetVCCDefault</name>
@@ -1240,11 +1240,11 @@
                 </option>
                 <option>
                     <name>TIPackage</name>
-                    <state></state>
+                    <state>C:\ti\ccs_base</state>
                 </option>
                 <option>
                     <name>BoardFile</name>
-                    <state></state>
+                    <state>$TOOLKIT_DIR$\config\debugger\TexasInstruments\xds\UNKNOWN_XDS110_CJTAG.dat</state>
                 </option>
                 <option>
                     <name>DoLogfile</name>
@@ -1395,7 +1395,7 @@
                 </option>
                 <option>
                     <name>CCXDSTargetVoltage</name>
-                    <state>###Uninitialized###</state>
+                    <state>3.3</state>
                 </option>
                 <option>
                     <name>OCXDSDigitalStatesConfigFile</name>

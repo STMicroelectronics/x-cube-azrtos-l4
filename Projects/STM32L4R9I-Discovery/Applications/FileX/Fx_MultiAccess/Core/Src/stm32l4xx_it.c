@@ -26,7 +26,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
-extern SD_HandleTypeDef hsd_discovery;
+
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -191,4 +191,3 @@ void TIM6_DAC_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-
